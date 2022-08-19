@@ -4,6 +4,8 @@
 #include "AudioLibs/AudioA2DP.h"
 
 
+#include <Wire.h>
+#include "MAX30105.h"
 
 A2DPStream in = A2DPStream::instance() ; // A2DP input - A2DPStream is a singleton!
 I2SStream out; 
@@ -13,9 +15,24 @@ uint8_t channels = 2;
 StreamCopy copier(out, in); // copy in to out
 
 
+MAX30105 particleSensor;
+
+
 void setup(void) {
   Serial.begin(115200);
   //AudioLogger::instance().begin(Serial, AudioLogger::Info);
+  TwoWire Wire = TwoWire(0); //may need to be 1
+  Wire.begin(33,32, (uint32_t)I2C_SPEED_FAST);
+  
+   if (particleSensor.begin(Wire, (uint32_t)I2C_SPEED_FAST) == false) //Use default I2C port, 400kHz speed
+  {
+    Serial.println("MAX30105 was not found. Please check wiring/power. ");
+    while (1);
+  }
+  else
+  {
+    Serial.println("MAX30105 was found. ");
+  }
 
   // start the bluetooth audio receiver
   Serial.println("starting A2DP...");
