@@ -32,14 +32,11 @@ void setup(void) {
   config.pin_ws = 27;
   config.pin_data = 22;
   out.begin(config);
+  
 
 }
 
 
 void loop() {
   copier.copy();
-  //print the out stream to the serial port
-  //Serial.print(out.peek);
-
-
 }
