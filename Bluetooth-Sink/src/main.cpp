@@ -15,7 +15,7 @@ StreamCopy copier(out, in); // copy in to out
 
 void setup(void) {
   Serial.begin(115200);
-
+  //AudioLogger::instance().begin(Serial, AudioLogger::Info);
 
   // start the bluetooth audio receiver
   Serial.println("starting A2DP...");
@@ -28,7 +28,9 @@ void setup(void) {
   config.sample_rate = sample_rate; 
   config.channels = channels;
   config.bits_per_sample = 16;
-
+  config.pin_bck = 25;
+  config.pin_ws = 27;
+  config.pin_data = 22;
   out.begin(config);
 
 }
@@ -36,4 +38,8 @@ void setup(void) {
 
 void loop() {
   copier.copy();
+  //print the out stream to the serial port
+  //Serial.print(out.peek);
+
+
 }
