@@ -5,12 +5,15 @@
 
 
 
-A2DPStream in = A2DPStream::instance() ; // A2DP input - A2DPStream is a singleton!
+//A2DPStream in = A2DPStream::instance() ; // A2DP input - A2DPStream is a singleton!
 I2SStream out; 
 uint16_t sample_rate=44100;
 uint8_t channels = 2;      
+
+SineWaveGenerator<int16_t> sineWave(32000);                // subclass of SoundGenerator with max amplitude of 32000
+GeneratedSoundStream<int16_t> sound(sineWave);             // Stream generated from sine wave
 //CsvStream<int16_t> out(Serial, 2); // ASCII stream as csv 
-StreamCopy copier(out, in); // copy in to out
+StreamCopy copier(out, sound); // copy in to out
 
 
 void setup(void) {
@@ -18,10 +21,10 @@ void setup(void) {
   //AudioLogger::instance().begin(Serial, AudioLogger::Info);
 
   // start the bluetooth audio receiver
-  Serial.println("starting A2DP...");
-  auto cfg = in.defaultConfig(RX_MODE);
-  cfg.name = "VibinChair";
-  in.begin(cfg);  
+  // Serial.println("starting A2DP...");
+  // auto cfg = in.defaultConfig(RX_MODE);
+  // cfg.name = "VibinChair";
+  // in.begin(cfg);  
     // start I2S
   Serial.println("starting I2S...");
   auto config = out.defaultConfig(TX_MODE);
@@ -30,9 +33,14 @@ void setup(void) {
   config.bits_per_sample = 16;
   config.pin_bck = 25;
   config.pin_ws = 27;
-  config.pin_data = 22;
+  config.pin_data = 32;
   out.begin(config);
   
+
+  
+  // Setup sine wave
+  sineWave.begin(channels, sample_rate, N_B4);
+  Serial.println("started...");
 
 }
 
