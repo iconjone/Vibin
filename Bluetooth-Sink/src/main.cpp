@@ -17,11 +17,7 @@ void setup(void) {
   Serial.begin(115200);
   //AudioLogger::instance().begin(Serial, AudioLogger::Info);
 
-  // start the bluetooth audio receiver
-  Serial.println("starting A2DP...");
-  auto cfg = in.defaultConfig(RX_MODE);
-  cfg.name = "VibinChair";
-  in.begin(cfg);  
+
     // start I2S
   Serial.println("starting I2S...");
   auto config = out.defaultConfig(TX_MODE);
@@ -30,8 +26,15 @@ void setup(void) {
   config.bits_per_sample = 16;
   config.pin_bck = 25;
   config.pin_ws = 27;
-  config.pin_data = 22;
+  config.pin_data = 32;
   out.begin(config);
+
+
+    // start the bluetooth audio receiver
+  Serial.println("starting A2DP...");
+  auto cfg = in.defaultConfig(RX_MODE);
+  cfg.name = "VibinChair";
+  in.begin(cfg);  
 
 }
 
