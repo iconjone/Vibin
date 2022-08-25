@@ -20,14 +20,6 @@ MAX30105 particleSensor;
 TaskHandle_t TestTask1;
 
 void TestTask( void * pvParameters ) {
-  for(;;) {
-    Serial.println(particleSensor.getIR());
-  }
-}
-
-void setup(void) {
-  Serial.begin(115200);
-  //AudioLogger::instance().begin(Serial, AudioLogger::Info);
   TwoWire Wire = TwoWire(0); //may need to be 1
   Wire.begin(14,13, (uint32_t)I2C_SPEED_FAST);
   
@@ -41,6 +33,15 @@ void setup(void) {
     Serial.println("MAX30105 was found. ");
   }
 particleSensor.setup(); 
+  for(;;) {
+    Serial.println(particleSensor.getIR());
+  }
+}
+
+void setup(void) {
+  Serial.begin(115200);
+  //AudioLogger::instance().begin(Serial, AudioLogger::Info);
+
   xTaskCreatePinnedToCore(
                     TestTask,   /* Task function. */
                     "TestTask1",     /* name of task. */
@@ -50,11 +51,7 @@ particleSensor.setup();
                     &TestTask1,      /* Task handle to keep track of created task */
                     0);          /* pin task to core 0 */ 
 
-  // start the bluetooth audio receiver
-  Serial.println("starting A2DP...");
-  auto cfg = in.defaultConfig(RX_MODE);
-  cfg.name = "VibinChair";
-  in.begin(cfg);  
+
     // start I2S
   Serial.println("starting I2S...");
   auto config = out.defaultConfig(TX_MODE);
@@ -63,8 +60,15 @@ particleSensor.setup();
   config.bits_per_sample = 16;
   config.pin_bck = 25;
   config.pin_ws = 27;
-  config.pin_data = 22;
+  config.pin_data = 32;
   out.begin(config);
+
+
+    // start the bluetooth audio receiver
+  Serial.println("starting A2DP...");
+  auto cfg = in.defaultConfig(RX_MODE);
+  cfg.name = "VibinChair";
+  in.begin(cfg);  
 
 }
 
