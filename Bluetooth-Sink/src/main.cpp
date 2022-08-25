@@ -20,6 +20,7 @@ MAX30105 particleSensor;
 TaskHandle_t TestTask1;
 
 void TestTask( void * pvParameters ) {
+  //core 0
   TwoWire Wire = TwoWire(0); //may need to be 1
   Wire.begin(14,13, (uint32_t)I2C_SPEED_FAST);
   
@@ -83,6 +84,7 @@ void setup(void) {
 
 
 void loop() {
+  //core 1
   copier.copy();
   //print the out stream to the serial port
   //Serial.print(out.peek);
@@ -90,6 +92,4 @@ void loop() {
 
 }
 
-
-}
 
