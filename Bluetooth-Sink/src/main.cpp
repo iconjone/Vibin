@@ -4,6 +4,8 @@
 #include "AudioLibs/AudioA2DP.h"
 
 
+#include <Wire.h>
+#include "MAX30105.h"
 
 A2DPStream in = A2DPStream::instance() ; // A2DP input - A2DPStream is a singleton!
 I2SStream out; 
@@ -13,9 +15,43 @@ uint8_t channels = 2;
 StreamCopy copier(out, in); // copy in to out
 
 
+MAX30105 particleSensor;
+
+TaskHandle_t TestTask1;
+
+void TestTask( void * pvParameters ) {
+  //core 0
+  TwoWire Wire = TwoWire(0); //may need to be 1
+  Wire.begin(14,13, (uint32_t)I2C_SPEED_FAST);
+  
+   if (particleSensor.begin(Wire, (uint32_t)I2C_SPEED_FAST) == false) //Use default I2C port, 400kHz speed
+  {
+    Serial.println("MAX30105 was not found. Please check wiring/power. ");
+    while (1);
+  }
+  else
+  {
+    Serial.println("MAX30105 was found. ");
+  }
+particleSensor.setup(); 
+  for(;;) {
+    Serial.println(particleSensor.getIR());
+  }
+}
+
 void setup(void) {
   Serial.begin(115200);
   //AudioLogger::instance().begin(Serial, AudioLogger::Info);
+
+  xTaskCreatePinnedToCore(
+                    TestTask,   /* Task function. */
+                    "TestTask1",     /* name of task. */
+                    10000,       /* Stack size of task */
+                    NULL,        /* parameter of the task */
+                    1,           /* priority of the task */
+                    &TestTask1,      /* Task handle to keep track of created task */
+                    0);          /* pin task to core 0 */ 
+
 
 
     // start I2S
@@ -37,9 +73,23 @@ void setup(void) {
   cfg.name = "VibinChair";
   in.begin(cfg);  
 
+
+    // start the bluetooth audio receiver
+  Serial.println("starting A2DP...");
+  auto cfg = in.defaultConfig(RX_MODE);
+  cfg.name = "VibinChair";
+  in.begin(cfg);  
+
 }
 
 
 void loop() {
+  //core 1
   copier.copy();
+  //print the out stream to the serial port
+  //Serial.print(out.peek);
+
+
 }
+
+
