@@ -52,6 +52,7 @@ void setup(void) {
                     0);          /* pin task to core 0 */ 
 
 
+
     // start I2S
   Serial.println("starting I2S...");
   auto config = out.defaultConfig(TX_MODE);
@@ -62,6 +63,14 @@ void setup(void) {
   config.pin_ws = 27;
   config.pin_data = 32;
   out.begin(config);
+  
+
+
+    // start the bluetooth audio receiver
+  Serial.println("starting A2DP...");
+  auto cfg = in.defaultConfig(RX_MODE);
+  cfg.name = "VibinChair";
+  in.begin(cfg);  
 
 
     // start the bluetooth audio receiver
@@ -81,4 +90,6 @@ void loop() {
 
 }
 
+
+}
 
