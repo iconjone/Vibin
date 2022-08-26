@@ -8,6 +8,11 @@
 #include "MAX30105.h"
 #include "heartRate.h"
 
+#include <WiFi.h>
+#include <AsyncTCP.h>
+
+#include <ESPAsyncWebServer.h>
+
 A2DPStream in = A2DPStream::instance() ; // A2DP input - A2DPStream is a singleton!
 I2SStream out; 
 uint16_t sample_rate=44100;
@@ -20,7 +25,24 @@ MAX30105 particleSensor;
 
 TaskHandle_t I2CTaskHandle;
 
+
+
+AsyncWebServer httpServer(80);
+
+
+
 void I2CTask( void * pvParameters ) {
+    WiFi.mode(WIFI_STA);
+    WiFi.begin("Vibin", "vibinon1");
+  Serial.println("WiFi started");
+  //print ip address
+  Serial.println(WiFi.localIP());
+  
+  httpServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send_P(200, "text/plain", "Hello, world");
+        Serial.println("Hello");
+    });
+  httpServer.begin();
   //core 0
   const byte RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
 byte rates[RATE_SIZE]; //Array of heart rates
@@ -45,6 +67,7 @@ particleSensor.setup();
   particleSensor.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
   particleSensor.setPulseAmplitudeGreen(0); //Turn off Green LED
   for(;;) {
+    //httpServer.
     long irValue = particleSensor.getIR();
 
   if (checkForBeat(irValue) == true)
@@ -92,10 +115,18 @@ void setup(void) {
                     "I2CTaskHandle",     /* name of task. */
                     10000,       /* Stack size of task */
                     NULL,        /* parameter of the task */
-                    1,           /* priority of the task */
+                    2,           /* priority of the task */
                     &I2CTaskHandle,      /* Task handle to keep track of created task */
                     0);          /* pin task to core 0 */ 
 
+  // xTaskCreatePinnedToCore(
+  //                   WiFiTask,   /* Task function. */
+  //                   "WiFiTaskHandle",     /* name of task. */
+  //                   10000,       /* Stack size of task */
+  //                   NULL,        /* parameter of the task */
+  //                   1,           /* priority of the task */
+  //                   &WiFiTaskHandle,      /* Task handle to keep track of created task */
+  //                   0);          /* pin task to core 0 */ 
 
 
     // start I2S
