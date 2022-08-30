@@ -29,9 +29,12 @@ TaskHandle_t I2CTaskHandle;
 
 AsyncWebServer httpServer(80);
 
+//setup led pin 2
+const int ledPin = 2;
 
-
+bool ledState = false;
 void I2CTask( void * pvParameters ) {
+pinMode(ledPin, OUTPUT);
     WiFi.mode(WIFI_STA);
     WiFi.begin("Vibin", "vibinon1");
   Serial.println("WiFi started");
@@ -41,6 +44,9 @@ void I2CTask( void * pvParameters ) {
   httpServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
         request->send_P(200, "text/plain", "Hello, world");
         Serial.println("Hello");
+        ledState = !ledState;
+      digitalWrite(ledPin, ledState ? HIGH : LOW);
+
     });
   httpServer.begin();
   //core 0
@@ -90,19 +96,19 @@ particleSensor.setup();
       beatAvg /= RATE_SIZE;
     }
   }
-/*
-  Serial.print("IR=");
-  Serial.print(irValue);
+
+  // Serial.print("IR=");
+  // Serial.print(irValue);
   Serial.print(", BPM=");
-  Serial.print(beatsPerMinute);
-  Serial.print(", Avg BPM=");
-  Serial.print(beatAvg);
+  Serial.println(beatsPerMinute);
+  // Serial.print(", Avg BPM=");
+  // Serial.print(beatAvg);
 
-  if (irValue < 50000)
-    Serial.print(" No finger?");
+  // if (irValue < 50000)
+  //   Serial.print(" No finger?");
 
-  Serial.println();
-  */
+  // Serial.println();
+  
   }
 }
 
