@@ -28,68 +28,106 @@ AsyncWebSocket ws("/ws");
 
 // setup led pin 2
 const int ledPin = 2;
+int mutePin = 19;
+int EnPin = 18;
+int resetPin = 12;
+int m6Pin = 26;
+int m7Pin = 33;
 
 bool ledState = false;
 
-void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len){
-  if(type == WS_EVT_CONNECT){
-    //client connected
-    //os_printf("ws[%s][%u] connect\n", server->url(), client->id());
+void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
+{
+  if (type == WS_EVT_CONNECT)
+  {
+    // client connected
+    // os_printf("ws[%s][%u] connect\n", server->url(), client->id());
     client->printf("Hello Client %u :)", client->id());
     client->ping();
-  } else if(type == WS_EVT_DISCONNECT){
-    //client disconnected
-    //os_printf("ws[%s][%u] disconnect: %u\n", server->url(), client->id());
-  } else if(type == WS_EVT_ERROR){
-    //error was received from the other end
-    //os_printf("ws[%s][%u] error(%u): %s\n", server->url(), client->id(), *((uint16_t*)arg), (char*)data);
-  } else if(type == WS_EVT_PONG){
-    //pong message was received (in response to a ping request maybe)
-    //os_printf("ws[%s][%u] pong[%u]: %s\n", server->url(), client->id(), len, (len)?(char*)data:"");
-  } else if(type == WS_EVT_DATA){
-    //data packet
-    AwsFrameInfo * info = (AwsFrameInfo*)arg;
-    if(info->final && info->index == 0 && info->len == len){
-      //the whole message is in a single frame and we got all of it's data
-      //os_printf("ws[%s][%u] %s-message[%llu]: ", server->url(), client->id(), (info->opcode == WS_TEXT)?"text":"binary", info->len);
-      if(info->opcode == WS_TEXT){
+  }
+  else if (type == WS_EVT_DISCONNECT)
+  {
+    // client disconnected
+    // os_printf("ws[%s][%u] disconnect: %u\n", server->url(), client->id());
+  }
+  else if (type == WS_EVT_ERROR)
+  {
+    // error was received from the other end
+    // os_printf("ws[%s][%u] error(%u): %s\n", server->url(), client->id(), *((uint16_t*)arg), (char*)data);
+  }
+  else if (type == WS_EVT_PONG)
+  {
+    // pong message was received (in response to a ping request maybe)
+    // os_printf("ws[%s][%u] pong[%u]: %s\n", server->url(), client->id(), len, (len)?(char*)data:"");
+  }
+  else if (type == WS_EVT_DATA)
+  {
+    // data packet
+    AwsFrameInfo *info = (AwsFrameInfo *)arg;
+    if (info->final && info->index == 0 && info->len == len)
+    {
+      // the whole message is in a single frame and we got all of it's data
+      // os_printf("ws[%s][%u] %s-message[%llu]: ", server->url(), client->id(), (info->opcode == WS_TEXT)?"text":"binary", info->len);
+      if (info->opcode == WS_TEXT)
+      {
         data[len] = 0;
-        //os_printf("%s\n", (char*)data);
-      } else {
-        for(size_t i=0; i < info->len; i++){
-          //os_printf("%02x ", data[i]);
-        }
-        //os_printf("\n");
+        // os_printf("%s\n", (char*)data);
       }
-      if(info->opcode == WS_TEXT)
+      else
+      {
+        for (size_t i = 0; i < info->len; i++)
+        {
+          // os_printf("%02x ", data[i]);
+        }
+        // os_printf("\n");
+      }
+      if (info->opcode == WS_TEXT)
+      {
         client->text("I got your text message");
+        ledState = !ledState;
+        digitalWrite(ledPin, ledState ? HIGH : LOW);
+        digitalWrite(EnPin, ledState ? HIGH : LOW);
+        digitalWrite(mutePin, ledState ? HIGH : LOW);
+        digitalWrite(resetPin, ledState ? HIGH : LOW);
+        digitalWrite(m6Pin, ledState ? HIGH : LOW);
+        digitalWrite(m7Pin, ledState ? HIGH : LOW);
+      }
       else
         client->binary("I got your binary message");
-    } else {
-      //message is comprised of multiple frames or the frame is split into multiple packets
-      if(info->index == 0){
-        if(info->num == 0)
+    }
+    else
+    {
+      // message is comprised of multiple frames or the frame is split into multiple packets
+      if (info->index == 0)
+      {
+        if (info->num == 0)
           Serial.println("Pretty big");
-          //os_printf("ws[%s][%u] %s-message start\n", server->url(), client->id(), (info->message_opcode == WS_TEXT)?"text":"binary");
-        //os_printf("ws[%s][%u] frame[%u] start[%llu]\n", server->url(), client->id(), info->num, info->len);
+        // os_printf("ws[%s][%u] %s-message start\n", server->url(), client->id(), (info->message_opcode == WS_TEXT)?"text":"binary");
+        // os_printf("ws[%s][%u] frame[%u] start[%llu]\n", server->url(), client->id(), info->num, info->len);
       }
 
-      //os_printf("ws[%s][%u] frame[%u] %s[%llu - %llu]: ", server->url(), client->id(), info->num, (info->message_opcode == WS_TEXT)?"text":"binary", info->index, info->index + len);
-      if(info->message_opcode == WS_TEXT){
+      // os_printf("ws[%s][%u] frame[%u] %s[%llu - %llu]: ", server->url(), client->id(), info->num, (info->message_opcode == WS_TEXT)?"text":"binary", info->index, info->index + len);
+      if (info->message_opcode == WS_TEXT)
+      {
         data[len] = 0;
-        //os_printf("%s\n", (char*)data);
-      } else {
-        for(size_t i=0; i < len; i++){
-         // os_printf("%02x ", data[i]);
+        // os_printf("%s\n", (char*)data);
+      }
+      else
+      {
+        for (size_t i = 0; i < len; i++)
+        {
+          // os_printf("%02x ", data[i]);
         }
-       // os_printf("\n");
+        // os_printf("\n");
       }
 
-      if((info->index + len) == info->len){
-        //os_printf("ws[%s][%u] frame[%u] end[%llu]\n", server->url(), client->id(), info->num, info->len);
-        if(info->final){
-          //os_printf("ws[%s][%u] %s-message end\n", server->url(), client->id(), (info->message_opcode == WS_TEXT)?"text":"binary");
-          if(info->message_opcode == WS_TEXT)
+      if ((info->index + len) == info->len)
+      {
+        // os_printf("ws[%s][%u] frame[%u] end[%llu]\n", server->url(), client->id(), info->num, info->len);
+        if (info->final)
+        {
+          // os_printf("ws[%s][%u] %s-message end\n", server->url(), client->id(), (info->message_opcode == WS_TEXT)?"text":"binary");
+          if (info->message_opcode == WS_TEXT)
             client->text("I got your text message");
           else
             client->binary("I got your binary message");
@@ -102,24 +140,32 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
 void I2CTask(void *pvParameters)
 {
   pinMode(ledPin, OUTPUT);
+  pinMode(mutePin, OUTPUT);
+  pinMode(EnPin, OUTPUT);
+  pinMode(resetPin, OUTPUT);
+  //pinMode(m6Pin, OUTPUT);
+  //pinMode(m7Pin, OUTPUT);
+  Serial.println("Setting");
+  digitalWrite(ledPin, HIGH);
+  digitalWrite(mutePin, HIGH);
+  digitalWrite(EnPin, HIGH);
+  digitalWrite(resetPin, HIGH);
+
   WiFi.mode(WIFI_STA);
   WiFi.begin("Vibin", "vibinon1");
   Serial.println("WiFi started");
   // print ip address
   Serial.println(WiFi.localIP());
 
-
-
   ws.onEvent(onEvent);
   httpServer.addHandler(&ws);
 
   httpServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
                 {
-                  request->send_P(200, "text/plain", "Hello, world");
+                  request->send_P(200, "text/html", "<h1>Vibin</h1>"); 
                   Serial.println("Hello");
                   ledState = !ledState;
-                  digitalWrite(ledPin, ledState ? HIGH : LOW);
-                });
+                  digitalWrite(ledPin, ledState ? HIGH : LOW); });
   httpServer.begin();
   // core 0
   const byte RATE_SIZE = 4; // Increase this for more averaging. 4 is good.
@@ -173,7 +219,8 @@ void I2CTask(void *pvParameters)
 
     // Serial.print("IR=");
     // Serial.print(irValue);
-    if(beatsPerMinute > 30){
+    if (beatsPerMinute > 30)
+    {
       Serial.print("BPM=");
       Serial.println(beatsPerMinute);
     }
@@ -189,6 +236,7 @@ void I2CTask(void *pvParameters)
 
 void setup(void)
 {
+
   Serial.begin(115200);
   // AudioLogger::instance().begin(Serial, AudioLogger::Info);
 
@@ -232,6 +280,7 @@ void loop()
 {
   // core 1
   copier.copy();
+
   // print the out stream to the serial port
   // Serial.print(out.peek);
 }
