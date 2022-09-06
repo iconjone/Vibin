@@ -21,7 +21,7 @@ uint16_t sample_rate = 44100;
 uint8_t channels = 2;
 void setup() {
   Serial.begin(115200);
-  AudioLogger::instance().begin(Serial, AudioLogger::Info);
+  AudioLogger::instance().begin(Serial, AudioLogger::Debug); //Set the log level to Debug
   // put your setup code here, to run once:
   pinMode(ledPin, OUTPUT);
   pinMode(mutePin, OUTPUT);
@@ -60,10 +60,10 @@ void setup() {
     //BluetoothA2DPSource *a2dp_source = a2dpStream.source;
     auto ad2p_src = a2dpStream.source();
 
-    cfgA2DP.name = "Jonathan Samuel's Beats Studio³";
+    cfgA2DP.name = "JBL GO 2";
     Serial.print("Connecting to ");
     Serial.println(cfgA2DP.name);
-    cfgA2DP.auto_reconnect = true;
+    //cfgA2DP.auto_reconnect = true;
 
     //init a char array to be passed as a pointer to begin()
     //char *name = new char[cfgA2DP.name.length() + 1];
