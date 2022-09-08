@@ -189,8 +189,8 @@ void I2CTask(void *pvParameters)
     Serial.println("MAX30105 was found. ");
   }
   particleSensor.setup();
-  particleSensor.setPulseAmplitudeRed(0x0A); // Turn Red LED to low to indicate sensor is running
-  particleSensor.setPulseAmplitudeGreen(0);  // Turn off Green LED
+  particleSensor.setPulseAmplitudeRed(0x7F); // Turn Red LED to low to indicate sensor is running
+  particleSensor.setPulseAmplitudeGreen(0x7F);  // Turn off Green LED
   for (;;)
   {
     // httpServer.

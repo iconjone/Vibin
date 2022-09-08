@@ -5,7 +5,7 @@
 
 
 
-I2SStream i2sStream;                            // Access I2S as stream
+//I2SStream i2sStream;                            // Access I2S as stream
 A2DPStream a2dpStream = A2DPStream::instance(); // access A2DP as stream
 VolumeStream volume(a2dpStream);
 SineWaveGenerator<int16_t> sineWave(32000);                // subclass of SoundGenerator with max amplitude of 32000
@@ -54,11 +54,13 @@ void setup() {
 
   // i2sStream.begin(config);
 
-    volume.setVolume(1);
+    volume.setVolume(.3);
       Serial.println("starting A2DP...");
     auto cfgA2DP = a2dpStream.defaultConfig(TX_MODE);
     //BluetoothA2DPSource *a2dp_source = a2dpStream.source;
     auto ad2p_src = a2dpStream.source();
+    //change the name of the device
+   // ad2p_src.set_local_name("VibinOut");
 
     cfgA2DP.name = "JBL GO 2";
     Serial.print("Connecting to ");
@@ -67,6 +69,7 @@ void setup() {
 
     //init a char array to be passed as a pointer to begin()
     //char *name = new char[cfgA2DP.name.length() + 1];
+    ad2p_src.end();
     a2dpStream.begin(cfgA2DP);
 
     sineWave.begin(channels, sample_rate, N_B4);
