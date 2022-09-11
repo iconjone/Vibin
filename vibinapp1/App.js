@@ -37,7 +37,7 @@ const HomeScreen = () => (
 
 export default function App() {
 
-  const [serverState, setServerState] = React.useState('Loading...');
+  const [serverState, setServerState] = React.useState('Connecting...');
 
 
   var ws = React.useRef(new WebSocket('ws://vibinchair.local/ws')).current;
@@ -48,6 +48,8 @@ export default function App() {
     ws.onopen = () => {
       setServerState('Connected to the server')
       ws.send("hello");
+      //ws.close();
+      
     };
     ws.onclose = (e) => {
       setServerState('Disconnected. Check internet or server.')
@@ -63,15 +65,15 @@ export default function App() {
     };
   }, [])
   const submitMessage = () => {
-    ws.send(messageText);
-    setMessageText('')
-    setInputFieldEmpty(true)
+    ws.send("test");
+    console.log("test?")
+  
   }
   return (
     <ApplicationProvider {...eva} theme={{...eva.dark, ...theme}}>
       <HomeScreen/>
       
-     <Button category="h1">{serverState} </Button> 
+     <Button category="h1" onPress={()=>{submitMessage();}}>{serverState} </Button> 
     </ApplicationProvider>
   );
 }

@@ -155,7 +155,13 @@ void I2CTask(void *pvParameters)
 
   WiFi.mode(WIFI_STA);
   WiFi.hostname("vibinchair");
+  delay(50);
   WiFi.begin("Vibin", "vibinon1");
+  //attach callback on _arduino_event_cb STA got new IP
+  WiFi.onEvent([](WiFiEvent_t event, WiFiEventInfo_t info) {
+      MDNS.begin("vibinchair");
+
+  }, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_GOT_IP);
  while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi..");
@@ -173,9 +179,10 @@ void I2CTask(void *pvParameters)
                   digitalWrite(ledPin, ledState ? HIGH : LOW); });
   ws.onEvent(onEvent);
   httpServer.addHandler(&ws);
+          MDNS.addService("_http", "tcp", 80);
+  MDNS.addService("_ws", "tcp", 80);
       MDNS.begin("vibinchair");
-        MDNS.addService("http", "tcp", 80);
-  MDNS.addService("ws", "tcp", 80);
+
 
   httpServer.begin();
 
