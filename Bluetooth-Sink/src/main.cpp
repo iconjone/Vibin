@@ -204,7 +204,7 @@ void I2CTask(void *pvParameters)
 
       beatsPerMinute = 60 / (delta / 1000.0);
 
-      if (beatsPerMinute < 255 && beatsPerMinute > 20)
+      if (beatsPerMinute < 120 && beatsPerMinute > 75)
       {
         rates[rateSpot++] = (byte)beatsPerMinute; // Store this reading in the array
         rateSpot %= RATE_SIZE;                    // Wrap variable
