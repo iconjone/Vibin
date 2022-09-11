@@ -12,6 +12,8 @@
 
 #include <ESPAsyncWebServer.h>
 
+#include <ESPmDNS.h>
+
 A2DPStream in = A2DPStream::instance(); // A2DP input - A2DPStream is a singleton!
 I2SStream out;
 uint16_t sample_rate = 44100;
@@ -152,7 +154,14 @@ void I2CTask(void *pvParameters)
   digitalWrite(resetPin, HIGH);
 
   WiFi.mode(WIFI_STA);
+  WiFi.hostname("vibinchair");
   WiFi.begin("Vibin", "vibinon1");
+ while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi..");
+  }
+        MDNS.begin("vibinchair");
+   // MDNS.addService("http", "tcp", 80);
   Serial.println("WiFi started");
   // print ip address
   Serial.println(WiFi.localIP());
@@ -167,6 +176,7 @@ void I2CTask(void *pvParameters)
                   ledState = !ledState;
                   digitalWrite(ledPin, ledState ? HIGH : LOW); });
   httpServer.begin();
+
   // core 0
   const byte RATE_SIZE = 4; // Increase this for more averaging. 4 is good.
   byte rates[RATE_SIZE];    // Array of heart rates
