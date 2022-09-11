@@ -173,13 +173,13 @@ void I2CTask(void *pvParameters)
                   digitalWrite(ledPin, ledState ? HIGH : LOW); });
   ws.onEvent(onEvent);
   httpServer.addHandler(&ws);
-
-
-  httpServer.begin();
-
       MDNS.begin("vibinchair");
         MDNS.addService("http", "tcp", 80);
   MDNS.addService("ws", "tcp", 80);
+
+  httpServer.begin();
+
+
        
 
   // core 0
