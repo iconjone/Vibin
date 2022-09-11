@@ -160,22 +160,27 @@ void I2CTask(void *pvParameters)
     delay(1000);
     Serial.println("Connecting to WiFi..");
   }
-        MDNS.begin("vibinchair");
-   // MDNS.addService("http", "tcp", 80);
+    
+  
   Serial.println("WiFi started");
   // print ip address
   Serial.println(WiFi.localIP());
-
-  ws.onEvent(onEvent);
-  httpServer.addHandler(&ws);
-
   httpServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
                 {
                   request->send_P(200, "text/html", "<h1>Vibin</h1>"); 
                   Serial.println("Hello");
                   ledState = !ledState;
                   digitalWrite(ledPin, ledState ? HIGH : LOW); });
+  ws.onEvent(onEvent);
+  httpServer.addHandler(&ws);
+
+
   httpServer.begin();
+
+      MDNS.begin("vibinchair");
+        MDNS.addService("http", "tcp", 80);
+  MDNS.addService("ws", "tcp", 80);
+       
 
   // core 0
   const byte RATE_SIZE = 4; // Increase this for more averaging. 4 is good.
