@@ -154,7 +154,9 @@ void I2CTask(void *pvParameters)
   digitalWrite(resetPin, HIGH);
 
   WiFi.mode(WIFI_STA);
-  WiFi.hostname("vibinchair");
+  String hostname = "vibinchair";
+WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
+WiFi.setHostname(hostname.c_str()); //define hostname
   delay(50);
   WiFi.begin("Vibin", "vibinon1");
   //attach callback on _arduino_event_cb STA got new IP
