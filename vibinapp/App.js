@@ -11,6 +11,8 @@ import {
   Button
 } from "@ui-kitten/components";
 
+var mdns = require('multicast-dns')()
+
 const ToggleSimpleUsageShowcase = () => {
   const [checked, setChecked] = React.useState(false);
 
@@ -42,7 +44,13 @@ export default function App() {
 
   var ws = React.useRef(new WebSocket('ws://vibinchair.local/ws')).current;
 
-
+    // lets query for an A record for 'brunhilde.local'
+    mdns.query({
+      questions:[{
+        name: 'vibinchair.local',
+        type: 'A'
+      }]
+    })
   React.useEffect(() => {
     const serverMessagesList = [];
     ws.onopen = () => {
@@ -58,11 +66,26 @@ export default function App() {
       setServerState(e.message);
     };
     ws.onmessage = (e) => {
+      // ws.send("pong");
       serverMessagesList.push(e.data);
       console.log(e);
       setServerState(e.data);
       //setServerMessages([...serverMessagesList])
     };
+
+    // mdns.on('response', function(response) {
+    //   console.log('got a response packet:', response)
+    //   //find the thing by this...
+    //   // response.answers.forEach(function(a) {
+    //   //   console.log('  answer: %s', a.data)
+    //   // }
+    // })
+    
+    // mdns.on('query', function(query) {
+    //   console.log('got a query packet:', query)
+    // })
+    
+
   }, [])
   const submitMessage = () => {
     ws.send("test");

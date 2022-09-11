@@ -17,6 +17,7 @@
     "electron": "^6.0.12",
     "expo": "^46.0.10",
     "expo-status-bar": "~1.4.0",
+    "multicast-dns": "^7.2.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.5",

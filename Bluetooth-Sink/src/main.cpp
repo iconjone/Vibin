@@ -59,6 +59,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
   }
   else if (type == WS_EVT_PONG)
   {
+    Serial.println("Pong");
     // pong message was received (in response to a ping request maybe)
     // os_printf("ws[%s][%u] pong[%u]: %s\n", server->url(), client->id(), len, (len)?(char*)data:"");
   }
@@ -86,6 +87,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       if (info->opcode == WS_TEXT)
       {
         client->text("I got your text message");
+        client->ping();
         ledState = !ledState;
         digitalWrite(ledPin, ledState ? HIGH : LOW);
         digitalWrite(EnPin, ledState ? HIGH : LOW);
@@ -154,21 +156,25 @@ void I2CTask(void *pvParameters)
   digitalWrite(resetPin, HIGH);
 
   WiFi.mode(WIFI_STA);
-  String hostname = "vibinchair";
+  //String hostname = "vibinchair";
 WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
-WiFi.setHostname(hostname.c_str()); //define hostname
+// WiFi.setHostname(hostname.c_str()); //define hostname
+WiFi.hostname("vibinchair");
   delay(50);
-  WiFi.begin("Vibin", "vibinon1");
+  WiFi.begin("WhiteSky-Junction", "h6trew7e");
   //attach callback on _arduino_event_cb STA got new IP
-  WiFi.onEvent([](WiFiEvent_t event, WiFiEventInfo_t info) {
-      MDNS.begin("vibinchair");
-
-  }, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_GOT_IP);
+//   WiFi.onEvent([](WiFiEvent_t event, WiFiEventInfo_t info) {
+//       //MDNS.begin("vibinchair");
+// // WiFi.hostname("vibinchair");
+// Serial.println("tried setting it again");
+  // }, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_GOT_IP);
  while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi..");
   }
-    
+    //print hostname
+
+  Serial.println(WiFi.getHostname());
   
   Serial.println("WiFi started");
   // print ip address
@@ -181,12 +187,14 @@ WiFi.setHostname(hostname.c_str()); //define hostname
                   digitalWrite(ledPin, ledState ? HIGH : LOW); });
   ws.onEvent(onEvent);
   httpServer.addHandler(&ws);
-          MDNS.addService("_http", "tcp", 80);
-  MDNS.addService("_ws", "tcp", 80);
+  //         MDNS.addService("_http", "tcp", 80);
+  // MDNS.addService("_ws", "tcp", 80);
       MDNS.begin("vibinchair");
 
 
   httpServer.begin();
+      MDNS.addService("http", "tcp", 80);
+
 
 
        
