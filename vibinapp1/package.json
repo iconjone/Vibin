@@ -6,7 +6,9 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "electron": "yarn expo-electron start",
+    "electron-build": "yarn electron-webpack && yarn electron-builder --dir"
   },
   "dependencies": {
     "@eva-design/eva": "^2.1.1",
@@ -23,7 +25,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@expo/electron-adapter": "^0.0.55"
+    "@expo/electron-adapter": "^0.0.55",
+    "electron-builder": "^23.3.3"
   },
   "private": true
 }

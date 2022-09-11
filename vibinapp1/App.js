@@ -47,6 +47,7 @@ export default function App() {
     const serverMessagesList = [];
     ws.onopen = () => {
       setServerState('Connected to the server')
+      ws.send("hello");
     };
     ws.onclose = (e) => {
       setServerState('Disconnected. Check internet or server.')
