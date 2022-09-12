@@ -1,13 +1,11 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <AsyncTCP.h>
+#include "WiFiControl.h"
 
-#include <ESPAsyncWebServer.h>
-
-#include <ESPmDNS.h>
 TaskHandle_t CoreTaskHandle;
 AsyncWebServer httpServer(80);
 AsyncWebSocket ws("/ws");
+
+
 
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
@@ -109,23 +107,9 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
 
 void CoreTask(void *pvParameters)
 {
+//use WiFicontrol.h to connect wifi
 
-  WiFi.mode(WIFI_STA);
-WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
-
-WiFi.hostname("vibinchair");
-
-  WiFi.begin("WhiteSky-Junction", "h6trew7e");
-
- while (WiFi.status() != WL_CONNECTED) {
-    delay(100);
-    Serial.println("Connecting to WiFi..");
-  }
-
-  
-  Serial.println("WiFi started");
-  // print ip address
-  Serial.println(WiFi.localIP());
+ connectWiFI();
   httpServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
                 {
                   request->send_P(200, "text/html", "<h1>Vibin</h1>"); 
