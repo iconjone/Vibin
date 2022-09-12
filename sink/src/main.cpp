@@ -34,6 +34,7 @@ void setup()
       2,                /* priority of the task */
       &CoreTaskHandle,  /* Task handle to keep track of created task */
       0);               /* pin task to core 0 */
+uint32_t Freq = 0;
 }
 
 void loop()

@@ -1,36 +1,27 @@
 //class that handles the connection to the server
 
 class vibinchairControl {
-  constructor() {
-    this.ws = new WebSocket("ws://vibinchair.local/ws");
-    this.status = false;
-    this.ws.onopen = () => {
-      this.status = true;
-      this.ws.send("{type: 'connection', data: 'Hello'}");
-    };
-    this.ws.onclose = (e) => {
-      this.status = false;
-      console.log(e);
-    };
-    this.ws.onerror = (e) => {
-      this.status = false;
-      console.log(e);
-    };
-    this.ws.onmessage = (e) => {
-      console.log(e);
-    };
-  }
-  getState() {
-    return this.status;
-  }
-  send(message) {
-    if (this.status) {
-      this.ws.send(message);
+    static socket = null;
+    static status = false;
+    constructor(){
+        this.socket = new WebSocket('ws://vibinchair.local/ws');
+        this.status = false;
+        this.socket.onopen = () => {
+            this.status = true;
+            console.log("connected to server");
+        }
+        this.socket.onclose = () => {
+            this.status = false;
+            console.log("disconnected from server");
+        }
+        this.socket.onmessage = (message) => {
+            console.log(message);
+        }
     }
-  }
-  close() {
-    this.ws.close();
-  }
+    send = (message) => {
+        this.socket.send(message);
+    }
+    
 }
 
-export { vibinchairControl };
+export {vibinchairControl};
