@@ -14,6 +14,7 @@
     "@eva-design/eva": "^2.1.1",
     "@expo/webpack-config": "^0.17.0",
     "@ui-kitten/components": "^5.1.2",
+    "@ui-kitten/eva-icons": "^5.1.2",
     "electron": "^6.0.12",
     "expo": "^46.0.10",
     "expo-status-bar": "~1.4.0",

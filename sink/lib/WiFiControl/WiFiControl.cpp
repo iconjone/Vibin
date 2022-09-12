@@ -1,10 +1,41 @@
-#include <Arduino.h>
-#include "WiFiControl.h"
+#include <WiFi.h>
+#include <AsyncTCP.h>
 
-TaskHandle_t CoreTaskHandle;
-AsyncWebServer httpServer(80);
-AsyncWebSocket ws("/ws");
+#include <ESPAsyncWebServer.h>
 
+#include <ESPmDNS.h>
+#include <ArduinoJson.h>
+
+void connectWiFI(){
+
+     WiFi.mode(WIFI_STA);
+WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
+
+WiFi.hostname("vibinchair");
+
+  //WiFi.begin("WhiteSky-Junction", "h6trew7e");
+  WiFi.begin("Vibin", "vibinon1");
+
+ while (WiFi.status() != WL_CONNECTED) {
+    delay(100);
+    Serial.println("Connecting to WiFi..");
+  }
+
+  
+  Serial.println("WiFi started");
+  // print ip address
+  Serial.println(WiFi.localIP());
+}
+
+
+void setUpServer(AsyncWebServer *httpServer){
+  httpServer->on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+                {
+                  request->send_P(200, "text/html", "<h1>Vibin</h1> </br> <h2> Please download the app to get started </h2>"); 
+                  Serial.println("Webpage Requested");
+                  });
+
+}
 
 
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
@@ -55,7 +86,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       }
       if (info->opcode == WS_TEXT)
       {
-        Serial.println("got text");
+        Serial.println((char*)data);
         client->text("I got your text message");
         //client->ping();
       }
@@ -102,44 +133,4 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       }
     }
   }
-}
-
-
-void CoreTask(void *pvParameters)
-{
-//use WiFicontrol.h to connect wifi
-
- connectWiFI();
-  httpServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-                {
-                  request->send_P(200, "text/html", "<h1>Vibin</h1>"); 
-                  Serial.println("Hello");
-                  });
-  ws.onEvent(onEvent);
-  httpServer.addHandler(&ws);
-      MDNS.begin("vibinchair");
-  httpServer.begin();
-      MDNS.addService("http", "tcp", 80);
-
-  for (;;)
-  {
-    // do something
-    delay(1000);
-  }
-}
-
-void setup() {
-  // put your setup code here, to run once:
-    xTaskCreatePinnedToCore(
-      CoreTask,         /* Task function. */
-      "CoreTaskHandle", /* name of task. */
-      10000,           /* Stack size of task */
-      NULL,            /* parameter of the task */
-      2,               /* priority of the task */
-      &CoreTaskHandle,  /* Task handle to keep track of created task */
-      0);              /* pin task to core 0 */
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
 }
