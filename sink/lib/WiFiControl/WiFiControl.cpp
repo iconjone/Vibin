@@ -5,6 +5,9 @@
 
 #include <ESPmDNS.h>
 #include <ArduinoJson.h>
+//#include <Arduino.h>
+
+
 
 void connectWiFI(){
 
@@ -88,6 +91,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       {
         Serial.println((char*)data);
         client->text("I got your text message");
+        digitalWrite(18, HIGH);
         //client->ping();
       }
       else

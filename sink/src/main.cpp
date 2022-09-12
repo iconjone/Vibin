@@ -3,6 +3,8 @@
 
 TaskHandle_t CoreTaskHandle;
 
+//pin 18 
+
 void CoreTask(void *pvParameters)
 {
   connectWiFI();
@@ -14,6 +16,7 @@ void CoreTask(void *pvParameters)
   MDNS.begin("vibinchair");
   httpServer.begin();
   MDNS.addService("http", "tcp", 80);
+  pinMode(18, OUTPUT);
 
   for (;;)
   {
@@ -34,7 +37,7 @@ void setup()
       2,                /* priority of the task */
       &CoreTaskHandle,  /* Task handle to keep track of created task */
       0);               /* pin task to core 0 */
-uint32_t Freq = 0;
+
 }
 
 void loop()
