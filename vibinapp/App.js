@@ -39,16 +39,11 @@ export default function App() {
       setServerState(true);
       console.log("connected to server");
     }
+    //on a message update whatever data is needed
   }, []);
 
-  React.useEffect(() => {
-console.log("did u find?", serverState)
-  }, [serverState, vibinchair, vibinchair.current]);
 
-outputVibinChair = () => {
-  console.log("vibinchair", vibinchair);
-  console.log("serverState", serverState);
-};
+
   return (
     <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
        <Layout level="1" >
@@ -68,7 +63,6 @@ outputVibinChair = () => {
         <Tab title="Status" >
           
           <Layout style={{ height:1600}}>
-          {/* <Button onPress={outputVibinChair}>hi</Button> */}
             <Status serverState={serverState} vibinchair={vibinchair} />
           </Layout>
         </Tab>
