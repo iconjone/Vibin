@@ -7,40 +7,38 @@
 #include <ArduinoJson.h>
 //#include <Arduino.h>
 
+void connectWiFI()
+{
+  WiFi.disconnect(true);
+  WiFi.mode(WIFI_STA);
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
 
+  WiFi.hostname("vibinchair");
 
-void connectWiFI(){
-
-     WiFi.mode(WIFI_STA);
-WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
-
-WiFi.hostname("vibinchair");
-
-  //WiFi.begin("WhiteSky-Junction", "h6trew7e");
+  // WiFi.begin("WhiteSky-Junction", "h6trew7e");
   WiFi.begin("Vibin", "vibinon1");
 
- while (WiFi.status() != WL_CONNECTED) {
-    delay(100);
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(1000);
     Serial.println("Connecting to WiFi..");
   }
 
-  
   Serial.println("WiFi started");
   // print ip address
   Serial.println(WiFi.localIP());
 }
 
-
-void setUpServer(AsyncWebServer *httpServer){
+void setUpServer(AsyncWebServer *httpServer)
+{
   httpServer->on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-                {
+                 {
                   request->send_P(200, "text/html", "<h1>Vibin</h1> </br> <h2> Please download the app to get started </h2>"); 
-                  Serial.println("Webpage Requested");
-                  });
-
+                  Serial.println("Webpage Requested"); });
 }
 
-
+bool test = false;
+StaticJsonDocument<64> doc;
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
   if (type == WS_EVT_CONNECT)
@@ -89,10 +87,51 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       }
       if (info->opcode == WS_TEXT)
       {
-        Serial.println((char*)data);
+        Serial.println((char *)data);
+        DeserializationError error = deserializeJson(doc, (char *)data);
+        if (error)
+        {
+          Serial.print("deserializeJson() failed: ");
+          Serial.println(error.c_str());
+          return;
+        }
+
+        const char *type = doc["type"];     // "command"
+        const char *origin = doc["origin"]; // "device"
+        int nId = doc["nId"];               // 13000
+        const char *dataM = doc["data"];
+
         client->text("I got your text message");
-        digitalWrite(18, HIGH);
-        //client->ping();
+        if(strcmp(type, "command") == 0 ){
+        if (strcmp((char *)dataM, "en-on") == 0)
+        {
+          digitalWrite(18, HIGH);
+        }
+        else if (strcmp((char *)dataM, "en-off") == 0)
+        {
+          digitalWrite(18, LOW);
+        }
+        else if (strcmp((char *)dataM, "m-on") == 0)
+        {
+          digitalWrite(19, HIGH);
+        }
+        else if (strcmp((char *)dataM, "m-off") == 0)
+        {
+          digitalWrite(19, LOW);
+        }
+                else if (strcmp((char *)dataM, "r-on") == 0)
+        {
+          digitalWrite(12, HIGH);
+        }
+        else if (strcmp((char *)dataM, "r-off") == 0)
+        {
+          digitalWrite(12, LOW);
+        }
+        }
+
+
+
+        // client->ping();
       }
       else
         client->binary("I got your binary message");

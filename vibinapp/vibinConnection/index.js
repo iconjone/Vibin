@@ -4,6 +4,13 @@ class vibinchairControl {
     static socket = null;
     static status = false;
     constructor(){
+        this.init();
+    }
+    send = (message) => {
+        //maybe do a check to see if the socket is open & message would work
+        this.socket.send(JSON.stringify(message));
+    }
+    init = () => {
         this.socket = new WebSocket('ws://vibinchair.local/ws');
         this.status = false;
         this.socket.onopen = () => {
@@ -18,10 +25,6 @@ class vibinchairControl {
             console.log(message);
         }
     }
-    send = (message) => {
-        this.socket.send(message);
-    }
-    
 }
 
 export {vibinchairControl};

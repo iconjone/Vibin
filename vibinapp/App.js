@@ -39,6 +39,10 @@ export default function App() {
       setServerState(true);
       console.log("connected to server");
     }
+    vibinchair.current.socket.onclose = () => {
+      setServerState(false);
+      console.log("disconnected from server");
+    }
     //on a message update whatever data is needed
   }, []);
 
