@@ -9,9 +9,9 @@ import {
 
   
   const Status = ({ vibinchair, serverState }) => {
-    const [toggleState, setToggleState] = React.useState(false);
-    const [toggleState1, setToggleState1] = React.useState(false);
-    const [toggleState2, setToggleState2] = React.useState(false);
+    const [enableState, setToggleState] = React.useState(false);
+    const [muteState, setToggleState1] = React.useState(false);
+    const [resetState, setToggleState2] = React.useState(false);
     const reconnect = () => {
       console.log("reconnecting", vibinchair);
       vibinchair.current.init();
@@ -48,13 +48,13 @@ import {
         </Button>
         <Text category="h1"> Welcome to Vibin {vibinchair.status}</Text>
   
-        <Toggle checked={toggleState} onChange={onCheckedChange} status='success'>
+        <Toggle checked={enableState} onChange={onCheckedChange} status='success'>
         Enable
       </Toggle>
-      <Toggle checked={toggleState1} onChange={onCheckedChange1} status ='danger'>
+      <Toggle checked={muteState} onChange={onCheckedChange1} status ='danger'>
         Mute
       </Toggle>
-      <Toggle checked={toggleState2} onChange={onCheckedChange2} status='warning'>
+      <Toggle checked={resetState} onChange={onCheckedChange2} status='warning'>
         Reset
       </Toggle>
       </>

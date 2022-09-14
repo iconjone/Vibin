@@ -9,7 +9,7 @@
 
 void connectWiFI()
 {
-  WiFi.disconnect(true);
+  // WiFi.disconnect(true);
   WiFi.mode(WIFI_STA);
   WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
 
@@ -39,13 +39,14 @@ void setUpServer(AsyncWebServer *httpServer)
 
 bool test = false;
 StaticJsonDocument<64> doc;
+DynamicJsonDocument repeat(3072);
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
   if (type == WS_EVT_CONNECT)
   {
     // client connected
     // os_printf("ws[%s][%u] connect\n", server->url(), client->id());
-    client->printf("Hello Client %u :)", client->id());
+    client->printf("{\"type\":\"update\",\"origin\":\"device\",\"nId\":0,\"data\":\"cl-%u\"}", client->id());
     client->ping();
   }
   else if (type == WS_EVT_DISCONNECT)
@@ -100,8 +101,16 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
         const char *origin = doc["origin"]; // "device"
         int nId = doc["nId"];               // 13000
         const char *dataM = doc["data"];
+        
+        doc["type"] = "update";
 
-        client->text("I got your text message");
+        String output;
+        serializeJson(doc, output);
+        client->text(output);
+        //send to all clients
+        
+
+       // client->text("I got your text message");
         if(strcmp(type, "command") == 0 ){
         if (strcmp((char *)dataM, "en-on") == 0)
         {
