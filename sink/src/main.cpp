@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "WiFiControl.h"
-// #include "AudioTools.h"
-// #include "AudioLibs/AudioA2DP.h"
+#include "AudioTools.h"
+#include "AudioLibs/AudioA2DP.h"
 
 #include <Wire.h>
 #include "MAX30105.h"
@@ -13,12 +13,12 @@ Adafruit_INA260 ina260 = Adafruit_INA260();
 
 TaskHandle_t CoreTaskHandle;
 
-// A2DPStream in = A2DPStream::instance(); // A2DP input - A2DPStream is a singleton!
-// I2SStream out;
-// uint16_t sample_rate = 44100;
-// uint8_t channels = 2;
-// // CsvStream<int16_t> out(Serial, 2); // ASCII stream as csv
-// StreamCopy copier(out, in); // copy in to out
+A2DPStream in = A2DPStream::instance(); // A2DP input - A2DPStream is a singleton!
+I2SStream out;
+uint16_t sample_rate = 44100;
+uint8_t channels = 2;
+// CsvStream<int16_t> out(Serial, 2); // ASCII stream as csv
+StreamCopy copier(out, in); // copy in to out
 MAX30105 particleSensor;
 AsyncWebServer httpServer(80);
 AsyncWebSocket ws("/ws");
@@ -61,7 +61,7 @@ void CoreTask(void *pvParameters)
   {
     Serial.println("Found INA260 chip");
   }
-  delay(500);
+  vTaskDelay(500);
   particleSensor.setup();
   particleSensor.setPulseAmplitudeRed(0x0A); // Turn Red LED to low to indicate sensor is running
   particleSensor.setPulseAmplitudeGreen(0);  // Turn off Green LED
@@ -162,36 +162,47 @@ void setup(void)
 {
   Serial.begin(115200);
   // put your setup code here, to run once:
+  pinMode(26, OUTPUT);
+  pinMode(33, OUTPUT);
+
+  digitalWrite(26, HIGH);
+  digitalWrite(33, HIGH);
+  
+
+
 
   xTaskCreatePinnedToCore(
       CoreTask,         /* Task function. */
       "CoreTaskHandle", /* name of task. */
       10000,            /* Stack size of task */
       NULL,             /* parameter of the task */
-      1,                /* priority of the task */
+      7,                /* priority of the task */
       &CoreTaskHandle,  /* Task handle to keep track of created task */
       0);               /* pin task to core 0 */
 
-  // Serial.println("starting I2S...");
-  //   auto config = out.defaultConfig(TX_MODE);
-  //   config.sample_rate = sample_rate;
-  //   config.channels = channels;
-  //   config.bits_per_sample = 16;
-  //   config.pin_bck = 25;
-  //   config.pin_ws = 27;
-  //   config.pin_data = 32;
-  //   out.begin(config);
+    //     Serial.println("starting I2S...");
+    // auto config = out.defaultConfig(TX_MODE);
+    // config.sample_rate = sample_rate;
+    // config.channels = channels;
+    // config.bits_per_sample = 16;
+    // config.pin_bck = 25;
+    // config.pin_ws = 27;
+    // config.pin_data = 32;
+    // out.begin(config);
 
-  //     // start the bluetooth audio receiver
-  //   Serial.println("starting A2DP...");
-  //   auto cfg = in.defaultConfig(RX_MODE);
-  //   cfg.name = "VibinChair";
-  //   in.begin(cfg);
+    //   // start the bluetooth audio receiver
+    // Serial.println("starting A2DP...");
+    // auto cfg = in.defaultConfig(RX_MODE);
+    // cfg.name = "VibinChair";
+    // in.begin(cfg);
+
+
+
 }
 
 void loop()
 {
   // yield();
-  //  copier.copy();
+   copier.copy();
   // put your main code here, to run repeatedly:
 }

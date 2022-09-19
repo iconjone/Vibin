@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "vibinapp1",
-    "slug": "vibinapp1",
+    "owner": "vibin-capstone",
+    "name": "vibinapp",
+    "slug": "vibinapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/688be4a7-8e43-42ed-9b10-6fc29fb0720f"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -28,7 +30,21 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "build": { "babel": { "include": [ "@ui-kitten/components" ] }}
+      "build": {
+        "babel": {
+          "include": [
+            "@ui-kitten/components"
+          ]
+        }
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "688be4a7-8e43-42ed-9b10-6fc29fb0720f"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

@@ -240,14 +240,14 @@ void setup(void)
   Serial.begin(115200);
   // AudioLogger::instance().begin(Serial, AudioLogger::Info);
 
-  xTaskCreatePinnedToCore(
-      I2CTask,         /* Task function. */
-      "I2CTaskHandle", /* name of task. */
-      10000,           /* Stack size of task */
-      NULL,            /* parameter of the task */
-      2,               /* priority of the task */
-      &I2CTaskHandle,  /* Task handle to keep track of created task */
-      0);              /* pin task to core 0 */
+  // xTaskCreatePinnedToCore(
+  //     I2CTask,         /* Task function. */
+  //     "I2CTaskHandle", /* name of task. */
+  //     10000,           /* Stack size of task */
+  //     NULL,            /* parameter of the task */
+  //     2,               /* priority of the task */
+  //     &I2CTaskHandle,  /* Task handle to keep track of created task */
+  //     0);              /* pin task to core 0 */
 
   // xTaskCreatePinnedToCore(
   //                   WiFiTask,   /* Task function. */
@@ -267,7 +267,7 @@ void setup(void)
   config.pin_bck = 25;
   config.pin_ws = 27;
   config.pin_data = 32;
-  config.use_apll = true;
+  // config.use_apll = true;
   out.begin(config);
   // PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO0_U, FUNC_GPIO0_CLK_OUT1);
   // WRITE_PERI_REG(PIN_CTRL, 0xFFF0);

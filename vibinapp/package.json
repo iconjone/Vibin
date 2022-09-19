@@ -15,9 +15,9 @@
     "@expo/webpack-config": "^0.17.0",
     "@ui-kitten/components": "^5.1.2",
     "@ui-kitten/eva-icons": "^5.1.2",
-    "electron": "^6.0.12",
     "expo": "^46.0.10",
     "expo-status-bar": "~1.4.0",
+    "expo-updates": "~0.14.5",
     "multicast-dns": "^7.2.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
@@ -29,7 +29,8 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@expo/electron-adapter": "^0.0.55",
-    "electron-builder": "^23.3.3"
+    "electron-builder": "^23.3.3",
+    "electron": "^6.0.12"
   },
   "private": true
 }
