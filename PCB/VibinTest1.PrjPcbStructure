@@ -1,0 +1,8 @@
+Record=TopLevelDocument|FileName=Amplifier_1.SchDoc|SheetNumber=2
+Record=NoMainPathDocument|SourceDocument=Amplifier_1.SchDoc|FileName=Amplifier_2.SchDoc|SheetNumber=6
+Record=NoMainPathDocument|SourceDocument=Amplifier_1.SchDoc|FileName=Amplifier_3.SchDoc|SheetNumber=7
+Record=NoMainPathDocument|SourceDocument=Amplifier_1.SchDoc|FileName=DSP.SchDoc|SheetNumber=6
+Record=NoMainPathDocument|SourceDocument=Amplifier_1.SchDoc|FileName=MCUs.SchDoc|SheetNumber=5
+Record=NoMainPathDocument|SourceDocument=Amplifier_1.SchDoc|FileName=PowerDelivery.SchDoc|SheetNumber=7
+Record=NoMainPathDocument|SourceDocument=Amplifier_1.SchDoc|FileName=Speaker Out.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=Amplifier_1.SchDoc|FileName=USB-UART.SchDoc|SheetNumber=1
