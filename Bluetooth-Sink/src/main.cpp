@@ -175,7 +175,7 @@ void I2CTask(void *pvParameters)
 
   float beatsPerMinute;
   int beatAvg;
-  TwoWire Wire = TwoWire(0); // may need to be 1
+  // TwoWire Wire = TwoWire(0); // may need to be 1
   Wire.begin(14, 13, (uint32_t)I2C_SPEED_FAST);
 
   if (particleSensor.begin(Wire, (uint32_t)I2C_SPEED_FAST) == false) // Use default I2C port, 400kHz speed
