@@ -1,0 +1,42 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "sink",
+			"path": "sink"
+		},
+		{
+			"name": "source",
+			"path": "source"
+		}
+		{
+			"name": "app",
+			"path": "vibinapp"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"array": "cpp",
+			"deque": "cpp",
+			"initializer_list": "cpp",
+			"list": "cpp",
+			"regex": "cpp",
+			"vector": "cpp",
+			"xhash": "cpp",
+			"xstring": "cpp",
+			"xtree": "cpp",
+			"xutility": "cpp",
+			"string": "cpp",
+			"unordered_map": "cpp",
+			"unordered_set": "cpp",
+			"string_view": "cpp",
+			"ostream": "c",
+			"*.tcc": "c",
+			"wire.h": "c",
+			"memory": "c",
+			"random": "c"
+		}
+	}
+}
