@@ -1,7 +1,7 @@
 /*
  * File:           C:\Users\joshu\Documents\Github\Vibin\SigmaStudio\TestDSP\exporttedt\TestDSP_IC_1_REG.h
  *
- * Created:        Sunday, October 30, 2022 8:25:57 PM
+ * Created:        Thursday, November 3, 2022 6:29:46 PM
  * Description:    TestDSP:IC 1 control register definitions.
  *
  * This software is distributed in the hope that it will be useful,
@@ -363,7 +363,7 @@
 /* SERIAL_BYTE_5_0  - Registers (IC 1) */
 #define REG_SERIAL_BYTE_5_0_IC_1_ADDR             0xF214
 #define REG_SERIAL_BYTE_5_0_IC_1_BYTE             2
-#define REG_SERIAL_BYTE_5_0_IC_1_VALUE            0x9005
+#define REG_SERIAL_BYTE_5_0_IC_1_VALUE            0x902D
 
 /* SERIAL_BYTE_5_1  - Registers (IC 1) */
 #define REG_SERIAL_BYTE_5_1_IC_1_ADDR             0xF215
@@ -3354,8 +3354,8 @@
 
 /* SERIAL_BYTE_5_0 (IC 1) */
 #define R68_SERIAL_BYTE_5_0_TDM_MODE_IC_1         0x5    /* 101b	[2:0] */
-#define R68_SERIAL_BYTE_5_0_DATA_FMT_IC_1         0x0    /* 00b	[4:3] */
-#define R68_SERIAL_BYTE_5_0_WORD_LEN_IC_1         0x0    /* 00b	[6:5] */
+#define R68_SERIAL_BYTE_5_0_DATA_FMT_IC_1         0x1    /* 01b	[4:3] */
+#define R68_SERIAL_BYTE_5_0_WORD_LEN_IC_1         0x1    /* 01b	[6:5] */
 #define R68_SERIAL_BYTE_5_0_BCLK_POL_IC_1         0x0    /* 0b	[7] */
 #define R68_SERIAL_BYTE_5_0_LRCLK_POL_IC_1        0x0    /* 0b	[8] */
 #define R68_SERIAL_BYTE_5_0_LRCLK_MODE_IC_1       0x0    /* 0b	[9] */

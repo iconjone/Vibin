@@ -9,7 +9,7 @@ TaskHandle_t CoreTaskHandle;
 
 A2DPStream in = A2DPStream::instance(); // A2DP input - A2DPStream is a singleton!
 I2SStream out;
-uint16_t sample_rate = 44100;
+uint16_t sample_rate = 48000;
 uint8_t channels = 2;
 // CsvStream<int16_t> out(Serial, 2); // ASCII stream as csv
 StreamCopy copier(out, in); // copy in to out

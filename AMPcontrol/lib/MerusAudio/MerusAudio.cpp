@@ -77,22 +77,51 @@ void setup_ma120x0()
     Serial.println(res, HEX);
     Serial.println("MA120x0P setup done");
   //  //printf("Hardware version: 0x%02x\n",res);
+  //01001001
 
-   ma_write_byte(MA_i2s_format__a,9);          // Set i2s left justified, set audio_proc_enable
-   ma_write_byte(MA_vol_db_master__a,0x20);    // Set vol_db_master 
+   ma_write_byte(MA_i2s_format__a,0x8);          // Set i2s left justified, set audio_proc_enable
+   ma_write_byte(MA_audio_proc_limiterEnable__a,81);
+  //  ma_write_byte(MA_audio_proc_limiterEnable__a,0b01010001);
 
-   res = ma_read_byte(MA_error__a); 
-  //  //printf("Errors : 0x%02x\n",res);
+  //  //ma_write
+   ma_write_byte(MA_vol_db_master__a,0x5);    // Set vol_db_master 
 
-   res = get_MA_audio_in_mode_mon();
-  //  //printf("Audio in mode : 0x%02x\n",res);
-     
-   //printf("Clear errors\n");
+  //  ma_write_byte(MA_manualPM__a, 0b01111101);
+
+  
+  res = get_MA_i2s_format();
+    Serial.print("MA120x0P i2s_format: ");
+    Serial.println(ma_read_byte(53),BIN);
+
+     Serial.print("MA120x0P limiter and i2s data: ");
+    Serial.println(ma_read_byte(54),BIN);
+
+       printf("Clear errors\n");
    ma_write_byte(45,0x34);
    ma_write_byte(45,0x30);
-   //printf("MA120x0P init done\n");
+   printf("MA120x0P init done\n");
+
+for (int i = 0; i < 0x7D; i++){
+    Serial.print(i, HEX);
+    Serial.print(": 0x");
+    Serial.print(ma_read_byte(i), HEX);
+    Serial.print(" -  0b");
+    Serial.println(ma_read_byte(i), BIN);
+}
+
+  //  ma_write_byte(0x20, 0b00011111);
+  //  ma_write_byte(0x20, 0b10011111);
+  //     Serial.println(ma_read_byte(0x7C), BIN);
+
+
+     
+
 
      digitalWrite(MA_NMUTE_IO, HIGH);
+  //       ma_write_byte(0x20, 0b00011111);
+  //  ma_write_byte(0x20, 0b10011111);
+      Serial.println(ma_read_byte(0x7C), BIN);
+
    //printf("Unmute\n");
 }
 
@@ -188,8 +217,9 @@ esp_err_t ma_write_byte(uint8_t address, uint8_t value)
   // }
   // return ESP_OK;
     Wire.beginTransmission(MA120X0_ADDR);   // Initialize a new I2C transmission at                                               // DSP_I2C_ADDR (adjust in USER_DEFINES.h)
-    Wire.write(address >> 8);                // Add high byte of address to the I2C buffer
-    Wire.write(address & 0xff);              // Add low byte of address to the I2C buffer
+    // Wire.write(address >> 8);                // Add high byte of address to the I2C buffer
+    // Wire.write(address & 0xff);              // Add low byte of address to the I2C buffer
+    Wire.write(address);              // Add low byte of address to the I2C buffer
     Wire.write(value);               //  Add the whole data packet to the I2C buffer
     Wire.endTransmission();                  // Send the entire I2C transmission to the DSP
     return 1;
@@ -243,9 +273,14 @@ uint8_t ma_read_byte(uint8_t address)
 	//   return ESP_FAIL;
   // }
     Wire.beginTransmission(MA120X0_ADDR);   // Initialize a new I2C transmission at                                               // DSP_I2C_ADDR (adjust in USER_DEFINES.h)
-    Wire.write(address >> 8);                // Add high byte of address to the I2C buffer
-    Wire.write(address & 0xff);              // Add low byte of address to the I2C buffer
-    Wire.requestFrom(address, 1);               //  Add the whole data packet to the I2C buffer
+
+  //  Wire.write(address >> 8);                // Add high byte of address to the I2C buffer
+    //Wire.write(address & 0xff);              // Add low byte of address to the I2C buffer
+    Wire.write(address);               //  Add the whole data packet to the I2C buffer
+    Wire.endTransmission();                  // Send the entire I2C transmission to the DSP
+
+    Wire.requestFrom(MA120X0_ADDR, 1);               //  Add the whole data packet to the I2C buffer
+
     if(Wire.available()) {
         value = Wire.read();
     }
@@ -253,7 +288,7 @@ uint8_t ma_read_byte(uint8_t address)
         //printf("Wire.available() returned false\n");
         value = -1;
     }
-    Wire.endTransmission();                  // Send the entire I2C transmission to the DSP
+    
   
 
   return value;

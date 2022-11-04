@@ -17,14 +17,26 @@
 <NetList>
     <IC name=" IC 1 " type="ADAU1452">
         <Schematic>
-            <Algorithm name="ICInputADAU145X1" friendlyname="ADAU145x Inputs 0-15 " cell="Input1 " location="{X=847, Y=281} " Growth="16 " GrowthB="0 " FS="48000">
-                <Link pin="O_C72_A0_P1_out" dir="out" link="Link0" />
-                <Link pin="O_C72_A0_P2_out" dir="out" link="Link1" />
+            <Algorithm name="ICInputADAU145X1" friendlyname="ADAU145x Inputs 0-15 " cell="Input1 " location="{X=853, Y=311} " Growth="16 " GrowthB="0 " FS="48000">
+                <Link pin="O_C72_A0_P1_out" dir="out" link="Link2" />
+                <Link pin="O_C72_A0_P2_out" dir="out" link="Link3" />
             </Algorithm>
-            <Algorithm name="ICOutADAU145X1" friendlyname="Output " cell="Output1 " location="{X=1108, Y=270} " Growth="1 " GrowthB="0">
+            <Algorithm name="NthOrderDoubleS3001" friendlyname="N Channel - Double Precision " cell="NFilter1 " location="{X=1215, Y=276} " Growth="2 " GrowthB="0">
+                <Link pin="I_C26_A0_P1_in" dir="in" link="Link2" />
+                <Link pin="I_C26_A0_P3_in" dir="in" link="Link3" />
+                <Link pin="O_C26_A0_P2_out" dir="out" link="Link0" />
+                <Link pin="O_C26_A0_P4_out" dir="out" link="Link1" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X3" friendlyname="Output " cell="Output3 " location="{X=1438, Y=483} " Growth="1 " GrowthB="0">
+                <Link pin="I_C0_A0_P1_in" dir="in" link="Link2" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X4" friendlyname="Output " cell="Output4 " location="{X=1441, Y=531} " Growth="1 " GrowthB="0">
+                <Link pin="I_C2_A0_P1_in" dir="in" link="Link3" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X1" friendlyname="Output " cell="Output1 " location="{X=1438, Y=306} " Growth="1 " GrowthB="0">
                 <Link pin="I_C17_A0_P1_in" dir="in" link="Link0" />
             </Algorithm>
-            <Algorithm name="ICOutADAU145X2" friendlyname="Output " cell="Output2 " location="{X=1110, Y=347} " Growth="1 " GrowthB="0">
+            <Algorithm name="ICOutADAU145X2" friendlyname="Output " cell="Output2 " location="{X=1440, Y=383} " Growth="1 " GrowthB="0">
                 <Link pin="I_C19_A0_P1_in" dir="in" link="Link1" />
             </Algorithm>
         </Schematic>

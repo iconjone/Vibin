@@ -45,12 +45,28 @@ delay(100);
 Serial.print("setting up Amp");
 setup_ma120x0();
 
-
+// digitalWrite(19, HIGH);
 
 }
 
 void loop()
 {
   Serial.println("Flashed?");
-  delay(1000);
+      Serial.print(0x7C, HEX);
+    Serial.print(": 0x");
+    Serial.print(ma_read_byte(0x7C), HEX);
+    Serial.print(" -  0b");
+    Serial.println(ma_read_byte(0x7C), BIN);
+  delay(10000);
+        //  printf("Clear errors\n");
+   ma_write_byte(45,0x34);
+   ma_write_byte(45,0x30);
+
+  //  ma_write_byte(0x20, 0b00011111);
+  //  ma_write_byte(0x20, 0b10011111);
+  //     Serial.println(ma_read_byte(0x20), BIN);
+  //  ma_write_byte(0x20, 0b00011111);
+  //  Serial.println(ma_read_byte(0x20), BIN);
+
+   Serial.println(ma_read_byte(0x7C), BIN);
 }
