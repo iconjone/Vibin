@@ -3,6 +3,10 @@
 #include "AudioTools.h"
 #include "AudioLibs/AudioA2DP.h"
 #include <Wire.h>
+
+#define DEBUG true
+#define Serial if(DEBUG)Serial
+
 // #include "SigmaDSP_parameters.h"
 
 TaskHandle_t CoreTaskHandle;
@@ -25,6 +29,9 @@ StreamCopy copier(out, in); // copy in to out
 
 #define DSP_DVDD 23
 #define DSP_RESET 21
+
+#define MA_NENABLE_IO  18//CONFIG_MA120X0_NENABLE_PIN  
+#define MA_NMUTE_IO    19//CONFIG_MA120X0_NMUTE_PIN 
 
 void CoreTask(void *pvParameters)
 {
@@ -64,6 +71,8 @@ void setup(void)
 
    pinMode(DSP_DVDD, INPUT);
  pinMode(DSP_RESET, INPUT);
+ pinMode(MA_NENABLE_IO, INPUT);
+  pinMode(MA_NMUTE_IO, INPUT);
 //  pinMode(23, OUTPUT);
 //  pinMode(21, OUTPUT);
 // digitalWrite(23, HIGH);
