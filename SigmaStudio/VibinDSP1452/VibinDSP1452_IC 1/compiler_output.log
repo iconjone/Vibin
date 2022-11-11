@@ -1,0 +1,73 @@
+ADAU145X Assembler, Analog Devices Inc.
+Version: 4.7.0,1827  (built 4/5/2022)
+
+##### Compile Started: Sunday, November 6, 2022 4:22:13 PM #####
+ADAU145X Assembler, Analog Devices Inc.
+Version: 4.7.0,1827  (built 4/5/2022)
+
+##### Compile Started: Sunday, November 6, 2022 4:22:13 PM #####
+##### Compile succeeded:  0 errors, 0 warnings #####
+
+##### Summary #####
+DM0 RAM used:       00855    (of 20480)
+DM1 RAM used:       08997    (of 20480)
+PM  RAM used(Data): 00000    (of 8192)
+PM  RAM used(Inst): 02141    (of 8192) 1328 instructions (32bit: 515  64bit: 813)
+Total PM used:      02141    (of 8192)
+
+--------------------------------------------------------------------------------------
+STREAM                        Inst      Inst      DM0     DM1     PM
+Instance                      (cycles)  (size)    
+--------------------------------------------------------------------------------------
+STACK                          -         -        16      0       0       
+NFilter1_5                    130       260       50      182     0
+NFilter1                      130       260       50      180     0
+NFilter1_3                    66        132       50      91      0
+NFilter1_2                    66        132       50      91      0
+NFilter2                      66        132       50      91      0
+NFilter1_4                    66        132       50      91      0
+NFilter2_2                    66        132       50      91      0
+NFilter1_6                    66        132       50      91      0
+Compressor1_2                 55        72        78      9       0
+Compressor1_3                 55        72        78      9       0
+Compressor1                   55        72        78      9       0
+Compressor1_4                 55        72        78      9       0
+Sweep1                        54        54        17      1       0
+Sweep1_2                      54        54        17      1       0
+DCB1                          32        44        12      12      0
+FRAMEWORK                     54        35        8       7       0
+MSEnv1                        23        25        7       1       0
+MSEnv1_2                      23        25        7       1       0
+Tone1                         18        18        10      1       0
+Tone1_2                       18        18        10      1       0
+Delay_C                       14        18        2       4004    0
+Delay_D                       14        18        2       4002    0
+Generated Bass Volume         10        17        3       2       0
+Square1                       14        15        6       1       0
+Square1_2                     14        15        6       1       0
+Slew vol 1                    9         14        0       3       0
+Slew vol 1_2                  9         14        0       3       0
+Nx1-1                         9         13        5       1       0
+Nx1-1_2                       9         13        5       1       0
+Gain1_2                       5         7         1       1       0
+Gain1_5                       5         7         1       1       0
+Gain1                         5         7         1       1       0
+Gain1_4                       5         7         1       1       0
+Gain1_6                       5         7         1       0       0
+Gain1_3                       5         7         1       0       0
+Add2                          4         7         0       1       0
+Add2_2                        4         7         0       1       0
+AsrcIn1                       3         5         0       0       0
+Output1_2                     2         3         0       0       0
+Output1_7                     2         3         0       0       0
+Output1                       2         3         0       0       0
+Output1_3                     2         3         0       0       0
+Output1_4                     2         3         0       0       0
+Output1_5                     2         3         0       0       0
+Output1_6                     2         3         0       0       0
+Output1_8                     2         3         0       0       0
+--------------------------------------------------------------------------------------
+Total                         1311      2095      851     8993    0
+--------------------------------------------------------------------------------------
+(% Fs=48.0kHz)                22%       26%       5%      44%     0%
+

@@ -27,7 +27,7 @@ import { vibinchairControl } from "./vibinConnection";
 
 import { Status } from "./Status";
 
-import { HeartRate } from "./HeartRate";
+// import { HeartRate } from "./HeartRate";
 
 // var mdns = require('multicast-dns')()
 
@@ -93,7 +93,7 @@ export default function App() {
         >
           <Tab title="BPM">
             <Layout style={{ height: Dimensions.get("window").height }}>
-              <HeartRate alignment="center" heartRate={heartRate} />
+              {/* <HeartRate alignment="center" heartRate={heartRate} /> */}
             </Layout>
           </Tab>
           <Tab title="STATUS">

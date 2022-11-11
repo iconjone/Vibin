@@ -1,0 +1,53 @@
+ADAU145X Assembler, Analog Devices Inc.
+Version: 4.7.0,1827  (built 4/5/2022)
+
+##### Compile Started: Tuesday, November 8, 2022 6:04:00 PM #####
+ADAU145X Assembler, Analog Devices Inc.
+Version: 4.7.0,1827  (built 4/5/2022)
+
+##### Compile Started: Tuesday, November 8, 2022 6:04:00 PM #####
+##### Compile succeeded:  0 errors, 0 warnings #####
+
+##### Summary #####
+DM0 RAM used:       00301    (of 20480)
+DM1 RAM used:       00650    (of 20480)
+PM  RAM used(Data): 00000    (of 8192)
+PM  RAM used(Inst): 01258    (of 8192) 828 instructions (32bit: 398  64bit: 430)
+Total PM used:      01258    (of 8192)
+
+--------------------------------------------------------------------------------------
+STREAM                        Inst      Inst      DM0     DM1     PM
+Instance                      (cycles)  (size)    
+--------------------------------------------------------------------------------------
+STACK                          -         -        16      0       0       
+NFilter1_2                    130       256       50      182     0
+NFilter2                      130       248       50      182     0
+NFilter1_4                    130       236       50      182     0
+SuperBass1                    138       197       56      67      0
+Sweep1                        54        54        17      1       0
+FRAMEWORK                     54        35        8       7       0
+DCB1                          32        32        12      12      0
+MSEnv1                        23        23        7       1       0
+MSEnv1_2                      23        23        7       1       0
+Tone1                         18        18        10      1       0
+Square1                       14        15        6       1       0
+Generated Bass Volume         10        13        3       2       0
+Nx1-1                         9         12        5       1       0
+Slew vol 1                    9         11        0       3       0
+Slew vol 1_2                  9         11        0       3       0
+Input1                        4         4         0       0       0
+Add2_3                        4         4         0       0       0
+Add2                          4         4         0       0       0
+Output1                       2         2         0       0       0
+Output1_2                     2         2         0       0       0
+Output1_7                     2         2         0       0       0
+Output1_5                     2         2         0       0       0
+Output1_3                     2         2         0       0       0
+Output1_4                     2         2         0       0       0
+Output1_6                     2         2         0       0       0
+Output1_8                     2         2         0       0       0
+--------------------------------------------------------------------------------------
+Total                         811       1212      297     646     0
+--------------------------------------------------------------------------------------
+(% Fs=48.0kHz)                14%       15%       2%      4%      0%
+

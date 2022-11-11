@@ -5,7 +5,14 @@
 
 #include <ESPmDNS.h>
 #include <ArduinoJson.h>
-//#include <Arduino.h>
+#include <Arduino.h>
+
+#include "MerusAudio.h"
+
+
+
+MAAudio *ampsReference = nullptr;
+
 
 void connectWiFI()
 {
@@ -34,12 +41,21 @@ void setUpServer(AsyncWebServer *httpServer)
   httpServer->on("/", HTTP_GET, [](AsyncWebServerRequest *request)
                  {
                   request->send_P(200, "text/html", "<h1>Vibin</h1> </br> <h2> Please download the app to get started </h2>"); 
-                  Serial.println("Webpage Requested"); });
+                  Serial.println("Webpage Requested"); 
+                  //print out amps array
+                  // for (int i = 0; i < 3; i++)
+                  // {
+                  //   //dump the register values
+                  //   amps[i].register_dump();
+                  // }
+                  });
 }
 
+
 bool test = false;
-StaticJsonDocument<64> doc;
-DynamicJsonDocument repeat(3072);
+StaticJsonDocument<96> doc;
+StaticJsonDocument<96> dataDecoder;
+
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
   if (type == WS_EVT_CONNECT)
@@ -100,6 +116,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
         const char *type = doc["type"];     // "command"
         const char *origin = doc["origin"]; // "device"
         int nId = doc["nId"];               // 13000
+        const char *target = doc["target"]; // "device to change"
         const char *dataM = doc["data"];
         
         doc["type"] = "update";
@@ -108,34 +125,52 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
         serializeJson(doc, output);
         client->text(output);
         //send to all clients
+        amp1.register_dump();
         
 
        // client->text("I got your text message");
         if(strcmp(type, "command") == 0 ){
-        if (strcmp((char *)dataM, "en-on") == 0)
+          Serial.println("registered command");
+          if (strstr((char *)target, "amp") != NULL)
+          {
+
+            Serial.println("recieved this");
+            //read which amp it is and apply the command
+            //get the amp number
+
+            
+            int ampNumber = target[3] - '0';
+            Serial.print("Amp Number: ");
+            Serial.println(ampNumber);
+            //select the amp
+            // amps[ampNumber - 1].register_dump();
+
+         DeserializationError error = deserializeJson(dataDecoder, dataM);
+        if (error)
         {
-          digitalWrite(18, HIGH);
+          Serial.print("deserializeJson() failed: ");
+          Serial.println(error.c_str());
+          return;
         }
-        else if (strcmp((char *)dataM, "en-off") == 0)
-        {
-          digitalWrite(18, LOW);
+        const char *command = dataDecoder["command"];
+        const int value = dataDecoder["value"];
+
+        Serial.print("Command: ");
+        Serial.println(command);
+        Serial.print("Value: ");
+        Serial.println(value);
+
+        if(strcmp(command, "volume") == 0){
+          Serial.println("Volume Command");
+          //set the volume
+          amps[ampNumber - 1].set_volume(value);
+
         }
-        else if (strcmp((char *)dataM, "m-on") == 0)
-        {
-          digitalWrite(19, HIGH);
-        }
-        else if (strcmp((char *)dataM, "m-off") == 0)
-        {
-          digitalWrite(19, LOW);
-        }
-                else if (strcmp((char *)dataM, "r-on") == 0)
-        {
-          digitalWrite(12, HIGH);
-        }
-        else if (strcmp((char *)dataM, "r-off") == 0)
-        {
-          digitalWrite(12, LOW);
-        }
+
+
+         
+
+          }
         }
 
 

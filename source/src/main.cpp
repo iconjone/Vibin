@@ -17,6 +17,8 @@ TaskHandle_t CoreTaskHandle;
 AsyncWebServer httpServer(80);
 AsyncWebSocket ws("/ws");
 
+
+
 #define DSP_DVDD 23
 #define DSP_RESET 21
 
@@ -44,9 +46,7 @@ void CoreTask(void *pvParameters)
   default_download_IC_1();
 
   Serial.println("Setting up Amp...");
-  MAAudio amp1(0x20);
-  MAAudio amp2(0x21);
-  MAAudio amp3(0x22);
+
 
   Serial.println("Turning on Amps... Disabled & Mute");
   digitalWrite(MA_NMUTE_IO, LOW);
@@ -69,10 +69,44 @@ void CoreTask(void *pvParameters)
 
   Serial.println("Modules Setup Complete!");
 
-  // for (;;)
-  // {
+//using pointer to array, loop through and set volume
+  for (int i = 0; i < 3; i++)
+  {
+    amp1.register_dump();
 
+  }
+
+  //for each amp in the array of amps
+  // for (int i = 0; i < 3; i++)
+  // {
+  //   //set the volume to 0
+  //   amps[i]->set_volume(0);
+  //   //set the bass to 0
+  //   amps[i]->set_bass(0);
+  //   //set the treble to 0
+  //   amps[i]->set_treble(0);
+  //   //set the balance to 0
+  //   amps[i]->set_balance(0);
+  //   //set the channel to 0
+  //   amps[i]->set_channel(0);
+  //   //set the mute to 0
+  //   amps[i]->set_mute(0);
+  //   //set the power to 0
+  //   amps[i]->set_power(0);
+  //   //set the input to 0
+  //   amps[i]->set_input(0);
+  //   //set the volume to 0
+  //   amps[i]->set_volume(0);
+  //   //set the volume to 0
+  //   amps[i]->set_volume(0);
   // }
+
+
+  for (;;)
+  {
+delay(10);
+yield();
+  }
 }
 
 void setup(void)

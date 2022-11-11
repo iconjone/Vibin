@@ -18,26 +18,46 @@
     <IC name=" IC 1 " type="ADAU1452">
         <Schematic>
             <Algorithm name="ICInputADAU145X1" friendlyname="ADAU145x Inputs 0-15 " cell="Input1 " location="{X=853, Y=311} " Growth="16 " GrowthB="0 " FS="48000">
-                <Link pin="O_C72_A0_P1_out" dir="out" link="Link2" />
-                <Link pin="O_C72_A0_P2_out" dir="out" link="Link3" />
+                <Link pin="O_C72_A0_P1_out" dir="out" link="Link1" />
+                <Link pin="O_C72_A0_P2_out" dir="out" link="Link2" />
             </Algorithm>
-            <Algorithm name="NthOrderDoubleS3001" friendlyname="N Channel - Double Precision " cell="NFilter1 " location="{X=1215, Y=276} " Growth="2 " GrowthB="0">
-                <Link pin="I_C26_A0_P1_in" dir="in" link="Link2" />
-                <Link pin="I_C26_A0_P3_in" dir="in" link="Link3" />
-                <Link pin="O_C26_A0_P2_out" dir="out" link="Link0" />
-                <Link pin="O_C26_A0_P4_out" dir="out" link="Link1" />
+            <Algorithm name="ICOutADAU145X7" friendlyname="Output " cell="Output7 " location="{X=1074, Y=485.8787} " Growth="1 " GrowthB="0">
+                <Link pin="I_C36_A0_P1_in" dir="in" link="Link1" />
             </Algorithm>
-            <Algorithm name="ICOutADAU145X3" friendlyname="Output " cell="Output3 " location="{X=1438, Y=483} " Growth="1 " GrowthB="0">
-                <Link pin="I_C0_A0_P1_in" dir="in" link="Link2" />
+            <Algorithm name="ICOutADAU145X8" friendlyname="Output " cell="Output8 " location="{X=1074, Y=541.9091} " Growth="1 " GrowthB="0">
+                <Link pin="I_C38_A0_P1_in" dir="in" link="Link2" />
             </Algorithm>
-            <Algorithm name="ICOutADAU145X4" friendlyname="Output " cell="Output4 " location="{X=1441, Y=531} " Growth="1 " GrowthB="0">
-                <Link pin="I_C2_A0_P1_in" dir="in" link="Link3" />
+            <Algorithm name="BassBAlgS3001" friendlyname="Mono Dynamic Bass Boost " cell="Bass Boost1 " location="{X=1683, Y=254.5476} " Growth="0 " GrowthB="0">
+                <Link pin="I_C24_A0_P1_in" dir="in" link="Link1" />
+                <Link pin="O_C24_A0_P2_out" dir="out" link="Link0" />
             </Algorithm>
-            <Algorithm name="ICOutADAU145X1" friendlyname="Output " cell="Output1 " location="{X=1438, Y=306} " Growth="1 " GrowthB="0">
-                <Link pin="I_C17_A0_P1_in" dir="in" link="Link0" />
+            <Algorithm name="BassBAlgS3002" friendlyname="Mono Dynamic Bass Boost " cell="Bass Boost1 " location="{X=1683, Y=254.5476} " Growth="0 " GrowthB="0">
+                <Link pin="I_C24_A1_P1_in" dir="in" link="Link2" />
+                <Link pin="O_C24_A1_P2_out" dir="out" link="Link5" />
             </Algorithm>
-            <Algorithm name="ICOutADAU145X2" friendlyname="Output " cell="Output2 " location="{X=1440, Y=383} " Growth="1 " GrowthB="0">
-                <Link pin="I_C19_A0_P1_in" dir="in" link="Link1" />
+            <Algorithm name="NthOrderDoubleS3001" friendlyname="N Channel - Double Precision " cell="NFilter1 " location="{X=1961, Y=317.5151} " Growth="2 " GrowthB="0">
+                <Link pin="I_C26_A0_P1_in" dir="in" link="Link0" />
+                <Link pin="I_C26_A0_P3_in" dir="in" link="Link5" />
+                <Link pin="O_C26_A0_P2_out" dir="out" link="Link3" />
+                <Link pin="O_C26_A0_P4_out" dir="out" link="Link4" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X1" friendlyname="Output " cell="Output1 " location="{X=2248, Y=309.0303} " Growth="1 " GrowthB="0">
+                <Link pin="I_C17_A0_P1_in" dir="in" link="Link3" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X3" friendlyname="Output " cell="Output3 " location="{X=2249, Y=422.3939} " Growth="1 " GrowthB="0">
+                <Link pin="I_C0_A0_P1_in" dir="in" link="Link3" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X5" friendlyname="Output " cell="Output5 " location="{X=2254, Y=546.2424} " Growth="1 " GrowthB="0">
+                <Link pin="I_C32_A0_P1_in" dir="in" link="Link3" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X2" friendlyname="Output " cell="Output2 " location="{X=2248, Y=355.7272} " Growth="1 " GrowthB="0">
+                <Link pin="I_C19_A0_P1_in" dir="in" link="Link4" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X4" friendlyname="Output " cell="Output4 " location="{X=2252, Y=470.3939} " Growth="1 " GrowthB="0">
+                <Link pin="I_C2_A0_P1_in" dir="in" link="Link4" />
+            </Algorithm>
+            <Algorithm name="ICOutADAU145X6" friendlyname="Output " cell="Output6 " location="{X=2255, Y=593.5757} " Growth="1 " GrowthB="0">
+                <Link pin="I_C34_A0_P1_in" dir="in" link="Link4" />
             </Algorithm>
         </Schematic>
     </IC>

@@ -4,7 +4,7 @@
 #include "AudioLibs/AudioA2DP.h"
 #include <Wire.h>
 
-#define DEBUG true
+#define DEBUG false
 #define Serial if(DEBUG)Serial
 
 // #include "SigmaDSP_parameters.h"

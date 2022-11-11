@@ -19,12 +19,22 @@
 #define MA_NENABLE_IO  18//CONFIG_MA120X0_NENABLE_PIN  
 #define MA_NMUTE_IO    19//CONFIG_MA120X0_NMUTE_PIN 
 
+  MAAudio amp1(0x20);
+  MAAudio amp2(0x21);
+  MAAudio amp3(0x22);
 
+//put 3 amps in an array
+MAAudio amps[3] = {amp1, amp2, amp3};
 
 
 MAAudio::MAAudio(int _i2c_address)
 {
-  int i2c_address = _i2c_address;
+  i2c_address = _i2c_address;
+}
+
+void MAAudio::set_i2c_address(int _i2c_address)
+{
+  i2c_address = _i2c_address;
 }
 
 
@@ -33,6 +43,8 @@ MAAudio::MAAudio(int _i2c_address)
 
 void MAAudio::setup_ma120x0()
 {  
+  Serial.print("i2c address: ");
+  Serial.println(i2c_address, HEX);
    uint8_t res = ma_read_byte(MA_hw_version__a);
     Serial.print("MA120x0P version: ");
     Serial.println(res, HEX);
@@ -40,9 +52,9 @@ void MAAudio::setup_ma120x0()
 
 
    ma_write_byte(MA_i2s_format__a,0x8);          // Set i2s left justified, set audio_proc_enable
-   ma_write_byte(MA_audio_proc_limiterEnable__a,81);
+   ma_write_byte(MA_audio_proc_limiterEnable__a,81); //81
 
-   ma_write_byte(MA_vol_db_master__a,0x5);    // Set vol_db_master 
+   ma_write_byte(MA_vol_db_master__a,0x0);   //E // Set vol_db_master 
 
 
 
@@ -51,13 +63,6 @@ void MAAudio::setup_ma120x0()
    ma_write_byte(45,0x30);
    printf("MA120x0P init done\n");
 
-// for (int i = 0; i < 0x7D; i++){
-//     Serial.print(i, HEX);
-//     Serial.print(": 0x");
-//     Serial.print(ma_read_byte(i), HEX);
-//     Serial.print(" -  0b");
-//     Serial.println(ma_read_byte(i), BIN);
-// }
 
 
 }
@@ -93,4 +98,18 @@ uint8_t MAAudio::ma_read_byte(uint8_t address)
         value = -1;
     }
   return value;
+}
+
+void MAAudio::register_dump(){  
+for (int i = 0; i < 0x7D; i++){
+    Serial.print(i, HEX);
+    Serial.print(": 0x");
+    Serial.print(ma_read_byte(i), HEX);
+    Serial.print(" -  0b");
+    Serial.println(ma_read_byte(i), BIN);
+}
+}
+
+void MAAudio::set_volume(int volume){
+  ma_write_byte(MA_vol_db_master__a, volume);
 }

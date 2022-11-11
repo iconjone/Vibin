@@ -5,6 +5,8 @@
 
 #include <ESPmDNS.h>
 
+#include "MerusAudio.h"
+
 void connectWiFI();
 
 void setUpServer(AsyncWebServer *httpServer);

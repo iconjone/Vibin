@@ -1,7 +1,7 @@
 /*
  * File:           defines.h
  *
- * Created:        Thursday, November 3, 2022 6:29:46 PM
+ * Created:        Tuesday, November 8, 2022 8:42:19 PM
  * Description:    TestDSP IC default download data definitions.
  *
  * This software is distributed in the hope that it will be useful,
@@ -19,7 +19,7 @@
 #ifndef __DEFINES_H__
 #define __DEFINES_H__
 
-#define BufferSize_IC_1     	2642
+#define BufferSize_IC_1     	3538
 #define NumTransactions_IC_1	59
 
 
