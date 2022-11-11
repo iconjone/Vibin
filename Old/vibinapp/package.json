@@ -1,0 +1,41 @@
+{
+  "name": "vibinapp1",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "electron": "yarn expo-electron start",
+    "electron-build": "yarn electron-webpack && yarn electron-builder --dir"
+  },
+  "dependencies": {
+    "@eva-design/eva": "^2.1.1",
+    "@expo/webpack-config": "^0.17.0",
+    "@ui-kitten/components": "^5.1.2",
+    "@ui-kitten/eva-icons": "^5.1.2",
+    "expo": "^46.0.10",
+    "expo-status-bar": "~1.4.0",
+    "expo-updates": "~0.14.5",
+    "multicast-dns": "^7.2.5",
+    "native-base": "^3.4.21",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.5",
+    "react-native-chart-kit": "^6.12.0",
+    "react-native-pager-view": "5.4.24",
+    "react-native-safe-area-context": "4.3.1",
+    "react-native-slider-web": "^0.1.2",
+    "react-native-svg": "12.3.0",
+    "react-native-tab-view": "^3.3.0",
+    "react-native-web": "~0.18.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@expo/electron-adapter": "^0.0.55",
+    "electron": "^6.0.12",
+    "electron-builder": "^23.3.3"
+  },
+  "private": true
+}
