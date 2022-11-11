@@ -2,7 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import {
   View,
   Platform,
-  useWindowDimensions
+  useWindowDimensions,
+  StyleSheet,
 } from "react-native";
 import React from "react";
 import * as eva from "@eva-design/eva";
@@ -13,16 +14,19 @@ import {
   Text,
   Toggle,
   Button,
+  Modal,
   ButtonGroup,
   TopNavigation,
   TopNavigationAction,
   Icon,
   Tab,
+  Card
 } from "@ui-kitten/components";
 
 import { vibinchairControl } from "./vibinConnection";
 
 import { TabView, SceneMap } from 'react-native-tab-view';
+import { NativeBaseProvider, Slider } from "native-base";
 
 // import { Status } from "./Status";
 
@@ -40,7 +44,14 @@ export default function App() {
 
   
 const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+  <View style={{ flex: 1, backgroundColor: '#ff4081' }} >
+    <NativeBaseProvider>
+    <Text category="h1"> Welcome to Vibin {vibinchair.status}</Text>
+   
+    </NativeBaseProvider>
+  </View>
+
+
 );
 
 const SecondRoute = () => (
@@ -49,7 +60,7 @@ const SecondRoute = () => (
 
 const renderScene = SceneMap({
   first: FirstRoute,
-  second: SecondRoute,
+  // second: SecondRoute,
 });
   //vibinchair = vibinchair.current;
 
@@ -91,24 +102,67 @@ const renderScene = SceneMap({
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
+    // { key: 'second', title: 'Second' },
   ]);
+  const reconnect = () => {
+    console.log("reconnecting", vibinchair);
+    vibinchair.current.init();
+  };
+
+  const [visible, setVisible] = React.useState(false);
+
 
   return (
+
+
     <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
-      <Layout level="1">
-        <TopNavigation
+      <Layout style={{ flex: 1 }}>
+            <TopNavigation
           title="Vibin"
           alignment="center"
           style={{ marginTop: Platform.OS === "ios" ? 40 : 0 }}
         />
- <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-    />
 
+   <NativeBaseProvider>
+    <Button
+          category="h1"
+          onPress={reconnect}
+          status={serverState ? "success" : "danger"}
+        >
+          {serverState ? "Connected" : "Connecting..."}
+        </Button>
+    <Slider w="3/4" maxW="300" defaultValue={70} minValue={0} maxValue={100} accessibilityLabel="hello world" step={1} size="lg">
+        <Slider.Track>
+          <Slider.FilledTrack />
+        </Slider.Track>
+        <Slider.Thumb />
+      </Slider>
+
+      <Button onPress={() => setVisible(true)}>
+        TOGGLE MODAL
+      </Button>
+
+      <Modal
+        visible={visible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setVisible(false)}>
+        <Card disabled={true}>
+          <Text>Welcome to UI Kitten 😻</Text>
+          <Slider w="3/4" maxW="300" defaultValue={70} minValue={0} maxValue={100} accessibilityLabel="hello world" step={10}>
+        <Slider.Track>
+          <Slider.FilledTrack />
+        </Slider.Track>
+        <Slider.Thumb />
+      </Slider>
+          <Button onPress={() => setVisible(false)}>
+            DISMISS
+          </Button>
+        </Card>
+      </Modal>
+
+      
+    </NativeBaseProvider>
+    
       </Layout>
     </ApplicationProvider>
   );
@@ -160,3 +214,13 @@ const renderScene = SceneMap({
             </Layout>
           </Tab>
         </TabView> */}
+
+
+        const styles = StyleSheet.create({
+          container: {
+            minHeight: 192,
+          },
+          backdrop: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          },
+        });
