@@ -1,10 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import {
-  StyleSheet,
   View,
-  SafeAreaView,
   Platform,
-  Dimensions,
+  useWindowDimensions
 } from "react-native";
 import React from "react";
 import * as eva from "@eva-design/eva";
@@ -19,13 +17,14 @@ import {
   TopNavigation,
   TopNavigationAction,
   Icon,
-  TabView,
   Tab,
 } from "@ui-kitten/components";
 
 import { vibinchairControl } from "./vibinConnection";
 
-import { Status } from "./Status";
+import { TabView, SceneMap } from 'react-native-tab-view';
+
+// import { Status } from "./Status";
 
 // import { HeartRate } from "./HeartRate";
 
@@ -38,6 +37,20 @@ export default function App() {
   const [heartRate, setHeartRate] = React.useState([95]);
   const [voltage, setVoltage] = React.useState(0);
   const [current, setCurrent] = React.useState(0);
+
+  
+const FirstRoute = () => (
+  <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+);
+
+const SecondRoute = () => (
+  <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+);
+
+const renderScene = SceneMap({
+  first: FirstRoute,
+  second: SecondRoute,
+});
   //vibinchair = vibinchair.current;
 
   React.useEffect(() => {
@@ -73,6 +86,13 @@ export default function App() {
     };
     //on a message update whatever data is needed
   }, []);
+  const layout = useWindowDimensions();
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'First' },
+    { key: 'second', title: 'Second' },
+  ]);
 
   return (
     <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
@@ -82,7 +102,20 @@ export default function App() {
           alignment="center"
           style={{ marginTop: Platform.OS === "ios" ? 40 : 0 }}
         />
-        <TabView
+ <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: layout.width }}
+    />
+
+      </Layout>
+    </ApplicationProvider>
+  );
+}
+
+
+        {/* <TabView
           selectedIndex={selectedIndex}
           onSelect={(index) => setSelectedIndex(index)}
           indicatorStyle={{
@@ -93,7 +126,7 @@ export default function App() {
         >
           <Tab title="BPM">
             <Layout style={{ height: Dimensions.get("window").height }}>
-              {/* <HeartRate alignment="center" heartRate={heartRate} /> */}
+              {/* <HeartRate alignment="center" heartRate={heartRate} /> 
             </Layout>
           </Tab>
           <Tab title="STATUS">
@@ -126,8 +159,4 @@ export default function App() {
               </Layout>
             </Layout>
           </Tab>
-        </TabView>
-      </Layout>
-    </ApplicationProvider>
-  );
-}
+        </TabView> */}
