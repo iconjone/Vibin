@@ -14,6 +14,7 @@ export function HomeScreen( {vibinchair}) {
   const send = (message) => {
     //maybe do a check to see if the socket is open & message would work
     vibinchair.send(JSON.stringify(message));
+    //heyyyyyy cutie IM IN YOUR CODE NOW
   }
 
 
@@ -31,15 +32,24 @@ export function HomeScreen( {vibinchair}) {
         <Button {...linkProps} theme="light">Link to user</Button>
         <Button onPress={() => send({type: "command", origin: "app", nId: Math.random(), target:"dsp", data:"nah" })}>Vibrate</Button>
       </XStack>
+      <SheetDemo vibinchair={vibinchair}/>
 
-      <SheetDemo />
     </YStack>
   )
 }
 
-function SheetDemo() {
+function SheetDemo(vibinchair) {
   const [open, setOpen] = useState(false)
   const [position, setPosition] = useState(0)
+  console.log(vibinchair, "SHEET DEMO");
+
+  const send = (message) => {
+    //maybe do a check to see if the socket is open & message would work
+    // console.log(vibinchair.vibinchair, "SEND");
+    vibinchair.vibinchair.send(message);
+    //heyyyyyy cutie IM IN YOUR CODE NOW
+  }
+
   return (
     <>
       <Button
@@ -72,59 +82,60 @@ function SheetDemo() {
 <XStack space als = "center">
 <YStack flex={1} space="$2"  bw={0} boc="$color" br="$4" p="$2" als = "center">
         <Paragraph>Master</Paragraph>
-            <Slider size="$4" height={50} width={350} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="light" mx={25}>
+            <Slider size="$4" height={50} width={350} defaultValue={[50]} max={60} step={1} orientation="horizontal" theme="light" mx={25}  onValueChange={(valuesend) => {send(JSON.stringify({type: "command", origin: "app", nId: Math.random(), target:"amp1", data: JSON.stringify({command:"volume", value: valuesend[0]})}));}}>
+               {/* onValueChange={(valuesend) => vibinchair.send(JSON.stringify({type: "command", origin: "app", nId: Math.random(), target:"amp1", data: JSON.stringify({command:"volume", value: valuesend})}))}> */}
                 <Slider.Track>
                     <Slider.TrackActive />
                   </Slider.Track>
                 <Slider.Thumb circular index={0} />
               </Slider>
               <XStack space als = "center"  bw={0} boc="$color" br="$4" p="$2" >
-              <Paragraph>TL</Paragraph>
-               <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="green">
-                <Slider.Track>
-                    <Slider.TrackActive />
-                  </Slider.Track>
-                <Slider.Thumb circular index={0} />
-              </Slider>
-              <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="green">
-                <Slider.Track>
-                    <Slider.TrackActive />
-                  </Slider.Track>
-                <Slider.Thumb circular index={0} />
-              </Slider>
-              <Paragraph>TR</Paragraph>
+                  <Paragraph>TL</Paragraph>
+                  <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="green">
+                    <Slider.Track>
+                        <Slider.TrackActive />
+                      </Slider.Track>
+                    <Slider.Thumb circular index={0} />
+                  </Slider>
+                  <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="green">
+                    <Slider.Track>
+                        <Slider.TrackActive />
+                      </Slider.Track>
+                    <Slider.Thumb circular index={0} />
+                  </Slider>
+                  <Paragraph>TR</Paragraph>
               </XStack>
               <XStack space als = "center"  bw={0} boc="$color" br="$4" p="$2" >
-              <Paragraph>ML</Paragraph>
-               <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="blue">
-                <Slider.Track>
-                    <Slider.TrackActive />
-                  </Slider.Track>
-                <Slider.Thumb circular index={0} />
-              </Slider>
-              <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="blue">
-                <Slider.Track>
-                    <Slider.TrackActive />
-                  </Slider.Track>
-                <Slider.Thumb circular index={0} />
-              </Slider>
-              <Paragraph>MR</Paragraph>
+                  <Paragraph>ML</Paragraph>
+                  <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="blue">
+                    <Slider.Track>
+                        <Slider.TrackActive />
+                      </Slider.Track>
+                    <Slider.Thumb circular index={0} />
+                  </Slider>
+                  <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="blue">
+                    <Slider.Track>
+                        <Slider.TrackActive />
+                      </Slider.Track>
+                    <Slider.Thumb circular index={0} />
+                  </Slider>
+                  <Paragraph>MR</Paragraph>
               </XStack>
               <XStack space als = "center"  bw={0} boc="$color" br="$4" p="$2" >
-              <Paragraph>BF</Paragraph>
-               <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="light_darker">
-                <Slider.Track>
-                    <Slider.TrackActive />
-                  </Slider.Track>
-                <Slider.Thumb circular index={0} />
-              </Slider>
-              <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="light_darker">
-                <Slider.Track>
-                    <Slider.TrackActive />
-                  </Slider.Track>
-                <Slider.Thumb circular index={0} />
-              </Slider>
-              <Paragraph>BB</Paragraph>
+                    <Paragraph>BF</Paragraph>
+                    <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="light_darker">
+                      <Slider.Track>
+                          <Slider.TrackActive />
+                        </Slider.Track>
+                      <Slider.Thumb circular index={0} />
+                    </Slider>
+                    <Slider size="$4" height={50} width={150} defaultValue={[50]} max={100} step={1} orientation="horizontal" theme="light_darker">
+                      <Slider.Track>
+                          <Slider.TrackActive />
+                        </Slider.Track>
+                      <Slider.Thumb circular index={0} />
+                    </Slider>
+                    <Paragraph>BB</Paragraph>
               </XStack>
 
   </YStack>
