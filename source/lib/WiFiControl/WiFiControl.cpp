@@ -125,7 +125,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
         serializeJson(doc, output);
         client->text(output);
         //send to all clients
-        amp1.register_dump();
+        // amp1.register_dump();
         
 
        // client->text("I got your text message");

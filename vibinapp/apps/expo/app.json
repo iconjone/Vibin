@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "myapp",
-    "slug": "myapp",
-    "scheme": "myapp",
+    "name": "VibinChair",
+    "slug": "vibinchair",
+    "scheme": "VibinChair",
+    "owner": "vibin-capstone",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,10 +16,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tamagui.myapp"
+      "bundleIdentifier": "com.vibin.chair"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,6 +32,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8108be5d-a19f-4a25-a78a-41f58af0fbc3"
+      }
     }
   }
 }

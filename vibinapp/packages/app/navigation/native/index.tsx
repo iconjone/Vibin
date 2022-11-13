@@ -3,35 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { HomeScreen } from '../../features/home/screen'
 import { UserDetailScreen } from '../../features/user/detail-screen'
-
-
-// class vibinchairControl {
-//   static socket = null;
-//   static status = false;
-//   constructor(){
-//       this.init();
-//   }
-//   send = (message) => {
-//       //maybe do a check to see if the socket is open & message would work
-//       vibinchairControl.socket.send(JSON.stringify(message));
-//   }
-//   init = () => {
-//       this.socket = new WebSocket('ws://vibinchair.local/ws');
-//       this.status = false;
-//       this.socket.onopen = () => {
-//           this.status = true;
-//           console.log("connected to server");
-//       }
-//       this.socket.onclose = () => {
-//           this.status = false;
-//           console.log("disconnected from server");
-//       }
-//       this.socket.onmessage = (message) => {
-//           console.log(message);
-//       }
-//   }
-// }
-
+import Ionicons from '@expo/vector-icons/Ionicons'
 
 const Stack = createNativeStackNavigator<{
   home: undefined
@@ -60,15 +32,17 @@ export function NativeNavigation() {
     <Stack.Navigator>
       <Stack.Screen
         name="home"
-        component={HomeScreen}
         options={{
-          title: 'Home',
+          title: vibinchairStatus ? 'Connected 🪄' : "Connecting...📲",
           headerStyle: {
             backgroundColor: vibinchairStatus ? '#095e05' : "#5e0506",
           },
           headerTintColor: '#fff',
+          
         }}
-      />
+      >
+        {()=><HomeScreen vibinchair={vibinchair.current} />}
+        </Stack.Screen>
       <Stack.Screen
         name="user-detail"
         component={UserDetailScreen}
