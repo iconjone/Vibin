@@ -28,7 +28,22 @@ export function NativeNavigation() {
   vibinchair.current.socket.onclose = () => {
               console.log("disconnected from server");
               setVibinchairStatus(false);
+              vibinchair.current.init();
           }
+
+          vibinchair.current.socket.onerror = () => {
+            console.log("disconnected from server");
+            setVibinchairStatus(false);
+            vibinchair.current.init();
+        }
+
+
+    
+
+          // const char *type = doc["type"];     // "command"
+          // const char *origin = doc["origin"]; // "device"
+          // int nId = doc["nId"];               // 13000
+          // const char *target = doc["target"]; // "device to change"
 
   return (
     <Stack.Navigator>
@@ -37,19 +52,19 @@ export function NativeNavigation() {
         options={{
           title: vibinchairStatus ? 'Connected 🪄' : "Connecting...📲",
           headerStyle: {
-            backgroundColor: vibinchairStatus ? '#095e05' : "#5e0506",
+            backgroundColor: vibinchairStatus ? '#337530' : "#8f2728",
           },
           headerTintColor: '#fff',
           
         }}
       >
-        {()=><HomeScreen vibinchair={vibinchair.current} />}
+        {()=><HomeScreen vibinchair={vibinchair.current} vibinchairStatus />}
         </Stack.Screen>
       <Stack.Screen
         name="user-detail"
         component={UserDetailScreen}
         options={{
-          title: 'User',
+          title: 'DSP Settings',
         }}
       />
     </Stack.Navigator>

@@ -8,6 +8,7 @@ class vibinchairControl {
   }
   send = (message) => {
     //maybe do a check to see if the socket is open & message would work
+    console.log("Sending message: " + message)
     try {
       this.socket.send(JSON.stringify(message))
     } catch (error) {
