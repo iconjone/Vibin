@@ -10,6 +10,15 @@ class vibinchairControl {
         //maybe do a check to see if the socket is open & message would work
         this.socket.send(JSON.stringify(message));
     }
+    controlVol = (amp, channel, vol) => { //0L, 0R, 1L, 1R
+        this.send({type: "command", origin: "app", nId: Math.random().toFixed(2), target:amp, command: "volume"+channel, value: vol });
+    }
+
+    controlMasterVol = (vol) => {
+         this.send({type: "command", origin: "app", nId: Math.random().toFixed(2), target:"ampm", command: "volume", value: vol});
+       // this.send({type: "command", origin: "app", nId: Math.random(), target:"ampm"});// data:{command: "volume", value: vol} });
+
+    }
     init = () => {
         this.socket = new WebSocket('ws://vibinchair.local/ws');
         this.status = false;

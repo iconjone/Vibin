@@ -11,7 +11,9 @@ class MAAudio
     uint8_t ma_read_byte(uint8_t address);
     void register_dump();
     void set_i2c_address(int _i2cAddress);  
-    void set_volume(int volume);
+    void set_volume_master(int volume);
+    void set_volume_channel(char* channel, int volume);
+
     int i2c_address;
 
   private:

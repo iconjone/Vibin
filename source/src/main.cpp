@@ -69,12 +69,6 @@ void CoreTask(void *pvParameters)
 
   Serial.println("Modules Setup Complete!");
 
-//using pointer to array, loop through and set volume
-  for (int i = 0; i < 3; i++)
-  {
-    amp1.register_dump();
-
-  }
 
   //for each amp in the array of amps
   // for (int i = 0; i < 3; i++)

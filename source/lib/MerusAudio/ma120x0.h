@@ -737,7 +737,7 @@
 #define get_obj_MA_vol_db_ch3(o) (o.read(69) & 0xff)>>0 
 #define get_MA_vol_db_ch3() ( ma_read_byte(69) & 0xff)>>0 
 //------------------------------------------------------------------------------vol_lsb_ch0---
-// volume channel 1 - 1/4 steps 
+// volume channel 0 - 1/4 steps 
 #define MA_vol_lsb_ch0__a 70
 #define MA_vol_lsb_ch0__len 2
 #define MA_vol_lsb_ch0__mask 0x03
@@ -748,7 +748,7 @@
 #define get_obj_MA_vol_lsb_ch0(o) (o.read(70) & 0x03)>>0 
 #define get_MA_vol_lsb_ch0() ( ma_read_byte(70) & 0x03)>>0 
 //------------------------------------------------------------------------------vol_lsb_ch1---
-// volume channel 3 - 1/4 steps 
+// volume channel 1 - 1/4 steps 
 #define MA_vol_lsb_ch1__a 70
 #define MA_vol_lsb_ch1__len 2
 #define MA_vol_lsb_ch1__mask 0x0c

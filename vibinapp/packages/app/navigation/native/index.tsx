@@ -5,6 +5,8 @@ import { HomeScreen } from '../../features/home/screen'
 import { UserDetailScreen } from '../../features/user/detail-screen'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
+import { vibinchairControl } from 'app/vibinConnection'
+
 const Stack = createNativeStackNavigator<{
   home: undefined
   'user-detail': {
@@ -15,15 +17,15 @@ const Stack = createNativeStackNavigator<{
 export function NativeNavigation() {
   const [vibinchairStatus, setVibinchairStatus] = React.useState(false);
 
-  const vibinchair = React.useRef( new WebSocket('ws://vibinchair.local/ws'));
+  const vibinchair = React.useRef( new vibinchairControl());
   console.log("vibinchair", vibinchair.current);
-  vibinchair.current = new WebSocket('ws://vibinchair.local/ws');
-  vibinchair.current.onopen = () => {
+  vibinchair.current = new vibinchairControl();
+  vibinchair.current.socket.onopen = () => {
               console.log("connected to server");
               setVibinchairStatus(true);
           }
 
-  vibinchair.current.onclose = () => {
+  vibinchair.current.socket.onclose = () => {
               console.log("disconnected from server");
               setVibinchairStatus(false);
           }

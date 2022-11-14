@@ -9,11 +9,6 @@
 
 #include "MerusAudio.h"
 
-
-
-MAAudio *ampsReference = nullptr;
-
-
 void connectWiFI()
 {
   // WiFi.disconnect(true);
@@ -40,21 +35,20 @@ void setUpServer(AsyncWebServer *httpServer)
 {
   httpServer->on("/", HTTP_GET, [](AsyncWebServerRequest *request)
                  {
-                  request->send_P(200, "text/html", "<h1>Vibin</h1> </br> <h2> Please download the app to get started </h2>"); 
-                  Serial.println("Webpage Requested"); 
-                  //print out amps array
-                  // for (int i = 0; i < 3; i++)
-                  // {
-                  //   //dump the register values
-                  //   amps[i].register_dump();
-                  // }
-                  });
-}
+                   request->send_P(200, "text/html", "<h1>Vibin</h1> </br> <h2> Please download the app to get started </h2>");
+                   Serial.println("Webpage Requested");
 
+                   // for (int i = 0; i < 3; i++)
+                   // {
+                   //   //dump the register values
+                   //   amps[i].register_dump();
+                   // }
+                 });
+}
 
 bool test = false;
 StaticJsonDocument<96> doc;
-StaticJsonDocument<96> dataDecoder;
+
 
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
@@ -117,68 +111,68 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
         const char *origin = doc["origin"]; // "device"
         int nId = doc["nId"];               // 13000
         const char *target = doc["target"]; // "device to change"
-        const char *dataM = doc["data"];
-        
+
+
         doc["type"] = "update";
 
         String output;
         serializeJson(doc, output);
         client->text(output);
-        //send to all clients
-        // amp1.register_dump();
-        
 
-       // client->text("I got your text message");
-        if(strcmp(type, "command") == 0 ){
+        // client->text("I got your text message");
+        if (strcmp(type, "command") == 0)
+        {
           Serial.println("registered command");
           if (strstr((char *)target, "amp") != NULL)
           {
 
-            Serial.println("recieved this");
-            //read which amp it is and apply the command
-            //get the amp number
+            const char *command = doc["command"];
+            const int value = doc["value"];
+            // read which amp it is and apply the command
+            // get the amp number
+            // if target[3] is "m" then it is master and apply to all amps
+            // if target[3] is "1" then it is amp 1
+            // if target[3] is "2" then it is amp 2
+            // if target[3] is "3" then it is amp 3
 
-            
+            if (target[3] == 'm')
+            {
+              Serial.println("Master?");
+              // apply to all amps
+              if (strcmp(command, "volume") == 0)
+              {
+                for (int i = 0; i < 3; i++)
+                {
+                  amps[i].set_volume_master(value);
+                }
+              }
+            }
+            else{
             int ampNumber = target[3] - '0';
+            ampNumber -= 1;
             Serial.print("Amp Number: ");
             Serial.println(ampNumber);
-            //select the amp
-            // amps[ampNumber - 1].register_dump();
+              if (strstr(command, "volume") != NULL)
+              {
+                  // get channel from command[6]/[7] and combine to make a char* channel string
+                  char channel[3];
+                  channel[0] = command[6];
+                  channel[1] = command[7];
+                  channel[2] = '\0';
+                  Serial.print("Channel: ");
+                  Serial.println(channel);
+                  amps[ampNumber].set_volume_channel((char*)channel, value);
+              }
+            }
 
-         DeserializationError error = deserializeJson(dataDecoder, dataM);
-        if (error)
-        {
-          Serial.print("deserializeJson() failed: ");
-          Serial.println(error.c_str());
-          return;
-        }
-        const char *command = dataDecoder["command"];
-        const int value = dataDecoder["value"];
-
-        Serial.print("Command: ");
-        Serial.println(command);
-        Serial.print("Value: ");
-        Serial.println(value);
-
-        if(strcmp(command, "volume") == 0){
-          Serial.println("Volume Command");
-          //set the volume
-          amps[ampNumber - 1].set_volume(value);
-
-        }
-
-
-         
 
           }
         }
 
-
-
         // client->ping();
       }
-      else
-        client->binary("I got your binary message");
+      // else
+      //   client->binary("I got your binary message");
     }
     else
     {
