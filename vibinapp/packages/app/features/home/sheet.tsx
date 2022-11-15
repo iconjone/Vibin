@@ -5,11 +5,15 @@ import {Vibration} from 'react-native'
 import { useLink } from 'solito/link'
 
 import throttle from 'lodash.throttle'
+import { vibinchairControl } from 'app/vibinConnection'
 
 
 
-export function SheetDemo(vibinchair) {
-  vibinchair = vibinchair.vibinchair;
+export function SheetDemo(props) {
+  console.log(props)
+  const {vibinchair, setLevelMode} = props;
+  // console.log("vibinchair", vibinchair)
+  // vibinchair = vibinchair.vibinchair;
     const [open, setOpen] = useState(false)
     const [position, setPosition] = useState(0)
     // console.log(vibinchair, "SHEET DEMO");
@@ -46,7 +50,7 @@ export function SheetDemo(vibinchair) {
           icon={open ? ChevronDown : ChevronUp}
           iconAfter={open ? ChevronDown : ChevronUp}
           theme="dark_SliderTrack"
-          onPress={() => setOpen((x) => !x)}
+          onPress={() => {setOpen((x) => !x); setLevelMode("manual")}}
           onSwipeUp={() => setOpen((x) => !x)}
           onSwipeDown={() => setOpen((x) => !x)}
           onSwipeLeft={() => setOpen((x) => !x)}

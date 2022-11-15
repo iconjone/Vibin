@@ -1,5 +1,5 @@
 import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack, XGroup, Switch, Image, Label } from '@my/ui'
-import { ChevronDown, ChevronUp, Divide, Feather, PartyPopper } from '@tamagui/lucide-icons'
+import { ChevronDown, ChevronUp, Divide, Feather, PartyPopper, Flower } from '@tamagui/lucide-icons'
 import React, { useState } from 'react'
 import { useLink } from 'solito/link'
 
@@ -10,6 +10,8 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
     href: '/user/Jonathan',
   })
 
+  const [enabled, setEnabled] = useState(true);
+
 
 
   //function to send message to websocket
@@ -19,7 +21,10 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
     //heyyyyyy cutie IM IN YOUR CODE NOW
   }
 
+  const [levelMode, setLevelMode] = useState("strong");
+
   const strongSet = () =>{
+    setLevelMode("strong");
     vibinchair.controlMasterVol(1023);
     vibinchair.controlVol("amp1", "LM",1023);
     vibinchair.controlVol("amp1", "RM",1023);
@@ -31,6 +36,7 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
 
   
   const comfortSet = () =>{
+    setLevelMode("comfort");
     vibinchair.controlMasterVol(750);
     vibinchair.controlVol("amp1", "LM",750);
     vibinchair.controlVol("amp1", "RM",750);
@@ -39,6 +45,19 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
     vibinchair.controlVol("amp3", "LM",750);
     vibinchair.controlVol("amp3", "RM",750);
   }
+
+    
+  const lightSet = () =>{
+    setLevelMode("light");
+    vibinchair.controlMasterVol(750);
+    vibinchair.controlVol("amp1", "LM",450);
+    vibinchair.controlVol("amp1", "RM",450);
+    vibinchair.controlVol("amp2", "LM",450);
+    vibinchair.controlVol("amp2", "RM",450);
+    vibinchair.controlVol("amp3", "LM",450);
+    vibinchair.controlVol("amp3", "RM",450);
+  }
+
 
 
   
@@ -54,24 +73,27 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
       
       
       <XGroup size="$12">
-      <Button icon={Feather} w="50%" theme="alt2" onPress={comfortSet}>
+      <Button icon={Flower} w="32%" theme={levelMode ==="light" ?"blue":"alt2"} onPress={lightSet}>
+        Light
+      </Button>
+      <Button icon={Feather} w="33%" theme={levelMode ==="comfort" ?"blue":"alt2"} onPress={comfortSet}>
         Comfort
       </Button>
-        <Button icon={PartyPopper} w="50%" theme="alt1" onPress={strongSet}>
+        <Button icon={PartyPopper} w="32%" theme={levelMode ==="strong" ?"blue":"alt2"} onPress={strongSet}>
         Strong
       </Button>
       </XGroup>
       <XStack w={200} ai="center" space="$4">
       <Label pr="$0" miw={90} jc="flex-end"  size="$8">
-        Enabled
+        {enabled ? "Enabled" : "Disabled"}
       </Label>
       <Separator mih={40} vertical  size="$8"/>
-      <Switch size="$8" theme="light">
+      <Switch size="$8"  defaultChecked = {true} onCheckedChange={(check)=>{setEnabled(check)}}>
     <Switch.Thumb animation="bouncy" />
   </Switch>
   </XStack>
 
-      <SheetDemo vibinchair={vibinchair}/>
+      <SheetDemo vibinchair={vibinchair} setLevelMode={setLevelMode}/>
 
       <XGroup size="$3">
         <Button {...linkProps} theme="light">DSP Settings</Button>
