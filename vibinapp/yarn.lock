@@ -7821,6 +7821,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-haptics@npm:~11.3.0":
+  version: 11.3.0
+  resolution: "expo-haptics@npm:11.3.0"
+  peerDependencies:
+    expo: "*"
+  checksum: b70692deeb1d36f4d4f9ddfc78dcc6f66fcfe0bf4be7994921eec811b9c6d7a0621959e68e03a73beac998986f8fd2e8988bd9f9827f08e86231adf3ce30deeb
+  languageName: node
+  linkType: hard
+
 "expo-json-utils@npm:~0.3.0":
   version: 0.3.0
   resolution: "expo-json-utils@npm:0.3.0"
@@ -11082,6 +11091,7 @@ __metadata:
     "@types/react": ^18.0.15
     "@types/react-native": ^0.69.5
     eslint: ^8.21.0
+    expo-haptics: ~11.3.0
     lodash.throttle: ^4.1.1
     prettier: ^2.7.1
     turbo: ^1.4.2

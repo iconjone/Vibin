@@ -167,6 +167,20 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
 
 
           }
+          else  if (strstr((char *)target, "esp") != NULL){
+            const char *command = doc["command"];
+            const int value = doc["value"];
+            if( strstr((char *)command, "mute") != NULL){
+              if(value == 1){
+                // mute
+                digitalWrite(19, HIGH);
+              }
+              else{
+                // unmute
+                digitalWrite(19, LOW);
+              }
+            }
+          }
         }
 
         // client->ping();

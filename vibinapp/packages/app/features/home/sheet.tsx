@@ -1,7 +1,8 @@
 import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack, Slider, Image } from '@my/ui'
 import { ChevronDown, ChevronUp, Divide } from '@tamagui/lucide-icons'
 import React, { useCallback, useState } from 'react'
-import {Vibration} from 'react-native'
+// import {Vibration} from 'react-native'
+// import * as Haptics from 'expo-haptics';
 import { useLink } from 'solito/link'
 
 import throttle from 'lodash.throttle'
@@ -40,6 +41,19 @@ export function SheetDemo(props) {
     const masterThrottle = useCallback(throttle(vibinchair.controlMasterVol, 700, {trailing: true}), []);
 
     const volumeThrottle = useCallback(throttle(vibinchair.controlVol, 700, {trailing: true}), []);
+
+    //vibration function trigger by slider value
+    const vibrate = (value) => {
+      // console.log(value);
+      if (value < 341 && value > 0) {
+        // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      } else if (value < 682 && value > 340) {
+        // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      } else if (value < 1023 && value > 681) {
+        // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      }
+    }
+
 
 
   
@@ -80,7 +94,7 @@ export function SheetDemo(props) {
   <XStack space als = "center">
   <YStack flex={1} space="$2"  bw={0} boc="$color" br="$4" p="$2" als = "center">
           <Paragraph>Master</Paragraph>
-              <Slider size="$4" height={50} width={350} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="light" mx={25}  onValueChange={(valuesend) => {masterThrottle(valuesend[0]); Vibration.vibrate();}}> 
+              <Slider size="$4" height={50} width={350} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="yellow" mx={25}  onValueChange={(valuesend) => {masterThrottle(valuesend[0]); vibrate(valuesend[0]);}}> 
                   <Slider.Track>
                       <Slider.TrackActive />
                     </Slider.Track>
@@ -88,13 +102,13 @@ export function SheetDemo(props) {
                 </Slider>
                 <XStack space als = "center"  bw={0} boc="$color" br="$4" p="$2" >
                     <Paragraph>TL</Paragraph>
-                    <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="green" onValueChange={(valuesend) => {volumeThrottle("amp1", "LM", valuesend[0]); Vibration.vibrate();}}>
+                    <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="blue_alt1" onValueChange={(valuesend) => {volumeThrottle("amp1", "LM", valuesend[0]); vibrate(valuesend[0]);}}>
                       <Slider.Track>
                           <Slider.TrackActive />
                         </Slider.Track>
                       <Slider.Thumb circular index={0} />
                     </Slider>
-                    <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="green" onValueChange={(valuesend) => {volumeThrottle("amp1", "RM", valuesend[0]); Vibration.vibrate();}}>
+                    <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="blue_alt1" onValueChange={(valuesend) => {volumeThrottle("amp1", "RM", valuesend[0]); vibrate(valuesend[0]);}}>
                       <Slider.Track>
                           <Slider.TrackActive />
                         </Slider.Track>
@@ -104,13 +118,13 @@ export function SheetDemo(props) {
                 </XStack>
                 <XStack space als = "center"  bw={0} boc="$color" br="$4" p="$2" >
                     <Paragraph>ML</Paragraph>
-                    <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="blue" onValueChange={(valuesend) => {volumeThrottle("amp2", "LM", valuesend[0]); Vibration.vibrate();}}>
+                    <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="light_blue" onValueChange={(valuesend) => {volumeThrottle("amp2", "LM", valuesend[0]); vibrate(valuesend[0]);}}>
                       <Slider.Track>
                           <Slider.TrackActive />
                         </Slider.Track>
                       <Slider.Thumb circular index={0} />
                     </Slider>
-                    <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="blue" onValueChange={(valuesend) => {volumeThrottle("amp2", "RM", valuesend[0]); Vibration.vibrate();}}>
+                    <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="light_blue" onValueChange={(valuesend) => {volumeThrottle("amp2", "RM", valuesend[0]); vibrate(valuesend[0]);}}>
                       <Slider.Track>
                           <Slider.TrackActive />
                         </Slider.Track>
@@ -119,20 +133,20 @@ export function SheetDemo(props) {
                     <Paragraph>MR</Paragraph>
                 </XStack>
                 <XStack space als = "center"  bw={0} boc="$color" br="$4" p="$2" >
-                      <Paragraph>BF</Paragraph>
-                      <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="light_darker" onValueChange={(valuesend) => {volumeThrottle("amp3", "LM", valuesend[0]); Vibration.vibrate();}}>
-                        <Slider.Track>
-                            <Slider.TrackActive />
-                          </Slider.Track>
-                        <Slider.Thumb circular index={0} />
-                      </Slider>
-                      <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="light_darker" onValueChange={(valuesend) => {volumeThrottle("amp3", "RM", valuesend[0]); Vibration.vibrate();}}>
-                        <Slider.Track>
-                            <Slider.TrackActive />
-                          </Slider.Track>
-                        <Slider.Thumb circular index={0} />
-                      </Slider>
                       <Paragraph>BB</Paragraph>
+                      <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="light_darker" onValueChange={(valuesend) => {volumeThrottle("amp3", "LM", valuesend[0]); vibrate(valuesend[0]);}}>
+                        <Slider.Track>
+                            <Slider.TrackActive />
+                          </Slider.Track>
+                        <Slider.Thumb circular index={0} />
+                      </Slider>
+                      <Slider size="$4" height={50} width={150} defaultValue={[1023]} max={1023} step={1} orientation="horizontal" theme="light_darker" onValueChange={(valuesend) => {volumeThrottle("amp3", "RM", valuesend[0]); vibrate(valuesend[0]);}}>
+                        <Slider.Track>
+                            <Slider.TrackActive />
+                          </Slider.Track>
+                        <Slider.Thumb circular index={0} />
+                      </Slider>
+                      <Paragraph>BF</Paragraph>
                 </XStack>
   
     </YStack>

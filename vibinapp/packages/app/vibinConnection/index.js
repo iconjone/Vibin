@@ -37,6 +37,18 @@ class vibinchairControl {
       command: 'volume',
       value: vol,
     })
+    }
+
+    mute = (mBool) => {
+        var m = mBool ? 1 : 0
+        this.send({
+            type: 'command',
+            origin: 'app',
+            nId: Math.random().toFixed(2),
+            target: 'esp',
+            command: 'mute',
+            value: m,
+        })
     // this.send({type: "command", origin: "app", nId: Math.random(), target:"ampm"});// data:{command: "volume", value: vol} });
   }
   init = () => {

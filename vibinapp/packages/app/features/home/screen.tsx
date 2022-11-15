@@ -1,5 +1,5 @@
 import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack, XGroup, Switch, Image, Label } from '@my/ui'
-import { ChevronDown, ChevronUp, Divide, Feather, PartyPopper, Flower } from '@tamagui/lucide-icons'
+import { ChevronDown, ChevronUp, Divide, Feather, Rocket, Flower } from '@tamagui/lucide-icons'
 import React, { useState } from 'react'
 import { useLink } from 'solito/link'
 
@@ -49,7 +49,7 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
     
   const lightSet = () =>{
     setLevelMode("light");
-    vibinchair.controlMasterVol(750);
+    vibinchair.controlMasterVol(450);
     vibinchair.controlVol("amp1", "LM",450);
     vibinchair.controlVol("amp1", "RM",450);
     vibinchair.controlVol("amp2", "LM",450);
@@ -79,7 +79,7 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
       <Button icon={Feather} w="33%" theme={levelMode ==="comfort" ?"blue":"alt2"} onPress={comfortSet}>
         Comfort
       </Button>
-        <Button icon={PartyPopper} w="32%" theme={levelMode ==="strong" ?"blue":"alt2"} onPress={strongSet}>
+        <Button icon={Rocket} w="32%" theme={levelMode ==="strong" ?"blue":"alt2"} onPress={strongSet}>
         Strong
       </Button>
       </XGroup>
@@ -88,7 +88,7 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
         {enabled ? "Enabled" : "Disabled"}
       </Label>
       <Separator mih={40} vertical  size="$8"/>
-      <Switch size="$8"  defaultChecked = {true} onCheckedChange={(check)=>{setEnabled(check)}}>
+      <Switch size="$8"  defaultChecked = {true} onCheckedChange={(check)=>{setEnabled(check); vibinchair.mute(check)}}>
     <Switch.Thumb animation="bouncy" />
   </Switch>
   </XStack>
