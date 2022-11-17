@@ -26,7 +26,8 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
   const strongSet = () =>{
     setLevelMode("strong");
     vibinchair.controlMasterVol(1023);
-    vibinchair.controlVol("amp1", "LM",1023);
+    vibinchair.controlVol("amp1", "LM",1023
+    );
     vibinchair.controlVol("amp1", "RM",1023);
     vibinchair.controlVol("amp2", "LM",1023);
     vibinchair.controlVol("amp2", "RM",1023);
@@ -37,25 +38,25 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
   
   const comfortSet = () =>{
     setLevelMode("comfort");
-    vibinchair.controlMasterVol(750);
-    vibinchair.controlVol("amp1", "LM",750);
-    vibinchair.controlVol("amp1", "RM",750);
-    vibinchair.controlVol("amp2", "LM",750);
-    vibinchair.controlVol("amp2", "RM",750);
-    vibinchair.controlVol("amp3", "LM",750);
-    vibinchair.controlVol("amp3", "RM",750);
+    vibinchair.controlMasterVol(945);
+    vibinchair.controlVol("amp1", "LM",925);
+    vibinchair.controlVol("amp1", "RM",925);
+    vibinchair.controlVol("amp2", "LM",915);
+    vibinchair.controlVol("amp2", "RM",915);
+    vibinchair.controlVol("amp3", "LM",975);
+    vibinchair.controlVol("amp3", "RM",975);
   }
 
     
   const lightSet = () =>{
     setLevelMode("light");
-    vibinchair.controlMasterVol(450);
-    vibinchair.controlVol("amp1", "LM",450);
-    vibinchair.controlVol("amp1", "RM",450);
-    vibinchair.controlVol("amp2", "LM",450);
-    vibinchair.controlVol("amp2", "RM",450);
-    vibinchair.controlVol("amp3", "LM",450);
-    vibinchair.controlVol("amp3", "RM",450);
+    vibinchair.controlMasterVol(925);
+    vibinchair.controlVol("amp1", "LM",845);
+    vibinchair.controlVol("amp1", "RM",845);
+    vibinchair.controlVol("amp2", "LM",880);
+    vibinchair.controlVol("amp2", "RM",880);
+    vibinchair.controlVol("amp3", "LM",945);
+    vibinchair.controlVol("amp3", "RM",945);
   }
 
 
