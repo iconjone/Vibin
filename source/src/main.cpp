@@ -95,6 +95,7 @@ void CoreTask(void *pvParameters)
   //   amps[i]->set_volume(0);
   // }
 
+amp1.register_dump();
 
   for (;;)
   {

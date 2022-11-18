@@ -59,6 +59,16 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
     vibinchair.controlVol("amp3", "RM",945);
   }
 
+  const wave = () =>{
+    setLevelMode("wave");
+    vibinchair.wave(1000)
+  }
+
+  const cancelWave = () =>{
+    setLevelMode("wave");
+    vibinchair.cancelWave()
+  }
+
 
 
   
@@ -98,6 +108,9 @@ export function HomeScreen( {vibinchair, vibinchairStatus}) {
 
       <XGroup size="$3">
         <Button {...linkProps} theme="light">DSP Settings</Button>
+        <Button onPress={wave} theme="light">Wave Me</Button>
+        <Button onPress={cancelWave} theme="light">Cancel Wave</Button>
+
       </XGroup>
 
 

@@ -99,6 +99,7 @@ void setup(void)
   config.pin_bck = 25;
   config.pin_ws = 27;
   config.pin_data = 32;
+  config.buffer_size = 1024;
   out.begin(config);
 
     Serial.println("starting A2DP...");
